@@ -34,23 +34,23 @@ jobs:
     
     - name: Install dependencies
       run: |
-        uv sync --locked
+        uv sync --locked --only-dev
     
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
         # exit-zero treats all errors as warnings
-        flake8 resume_md --count --exit-zero --max-complexity=10 --statistics
+        uv flake8 resume_md --count --exit-zero --max-complexity=10 --statistics
     
     - name: Check formatting with black
-      run: black --check resume_md
+      run: uv black --check resume_md
     
     - name: Check import order with isort
-      run: isort --check resume_md
+      run: uv isort --check resume_md
     
     - name: Test with pytest
-      run: pytest --cov=resume_md
+      run: uv pytest --cov=resume_md
     
     - name: Upload coverage report
       uses: codecov/codecov-action@v3
