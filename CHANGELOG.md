@@ -1,3 +1,10 @@
+## [1.0.3](https://github.com/SamCullin/resume-md/compare/v1.0.2...v1.0.3) (2025-05-12)
+
+
+### Bug Fixes
+
+* testing python-semantic-releases ([f72fcbe](https://github.com/SamCullin/resume-md/commit/f72fcbe3a1c92d876fcbe6d8c737f663048499c7))
+
 ## [1.0.2](https://github.com/SamCullin/resume-md/compare/v1.0.1...v1.0.2) (2025-05-12)
 
 
