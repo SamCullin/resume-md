@@ -15,12 +15,19 @@ permissions:
   id-token: write
   issues: write
   pull-requests: write
+  packages: write
 
 jobs:
   semantic-release:
     name: Semantic Release
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    # Explicitly set permissions for this job
+    permissions:
+      contents: write      # for creating releases
+      issues: write        # for commenting on issues
+      pull-requests: write # for commenting on PRs
+      id-token: write      # for OIDC
     outputs:
       new_release_created: ${{ steps.release_check.outputs.new_release }}
       release_tag: ${{ steps.release_check.outputs.tag }}
@@ -146,8 +153,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
-      contents: write
-      id-token: write
+      contents: write  # Required for uploading to releases
+      id-token: write  # Required for signing
     steps:
       - name: Download distributions
         uses: actions/download-artifact@v4
