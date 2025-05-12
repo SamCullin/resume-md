@@ -103,8 +103,8 @@ content_html = rendered["content"]
 
 The resume-md tool supports a specific markdown format designed for resumes. For examples, see:
 
-- [Example 1](example/example1.md) - Basic resume format
-- [Example 2](example/example2.md) - More detailed resume with additional sections
+- [Example 1](example/example1.md) - Basic resume format with tables
+- [Example 2](example/example2.md) - Alternative resume format with lists
 
 
 ## Development
