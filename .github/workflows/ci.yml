@@ -50,7 +50,7 @@ jobs:
       run: uv run isort --check resume_md
     
     - name: Test with pytest
-      run: uv run pytest --cov=resume_md
+      run: uv run pytest
     
     - name: Upload coverage report
       uses: codecov/codecov-action@v3
