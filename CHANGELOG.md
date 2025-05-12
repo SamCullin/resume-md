@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v1.0.5 (2025-05-12)
+
+### Bug Fixes
+
+- Removed old release.yml & fixed release perms
+  ([`d191d2c`](https://github.com/SamCullin/resume-md/commit/d191d2ced2eb471b881375ad156065c7096edb1d))
+
+
 ## v1.0.4 (2025-05-12)
 
 ### Bug Fixes
