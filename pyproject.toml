@@ -24,7 +24,7 @@ classifiers = [
     "Topic :: Text Processing :: Markup",
     "Topic :: Office/Business",
 ]
-keywords = ["resume", "markdown", "html", "tailwind", "generator"]
+keywords = ["resume", "cv", "markdown", "html", "tailwind", "generator"]
 dependencies = [
     "importlib_resources>=1.4.0; python_version < '3.9'",
 ]
@@ -49,7 +49,6 @@ include = ["resume_md*"]
 
 [tool.setuptools.package-data]
 resume_md = ["template.html"]
-
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 
@@ -88,3 +87,4 @@ changelog_file = "CHANGELOG.md"
 changelog_sections = [
     "feature", "fix", "breaking", "documentation", "performance", "refactor"
 ]
+
