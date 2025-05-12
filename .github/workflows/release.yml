@@ -9,6 +9,8 @@ jobs:
   semantic-release:
     name: Semantic Release
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
         with:
@@ -29,4 +31,21 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          semantic-release --branches main 
+          OUTPUT=$(semantic-release --branches main)
+          echo "OUTPUT=$OUTPUT"
+          if echo "$OUTPUT" | grep -q "The next release version is"; then
+            echo "NEW_RELEASE=true" >> $GITHUB_OUTPUT
+            VERSION=$(echo "$OUTPUT" | grep -o "The next release version is [0-9]*\.[0-9]*\.[0-9]*" | awk '{print $6}')
+            echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+          else
+            echo "NEW_RELEASE=false" >> $GITHUB_OUTPUT
+          fi
+      
+      # Trigger the publish workflow if a new release was created
+      - name: Trigger Publish Workflow
+        if: steps.semantic.outputs.NEW_RELEASE == 'true'
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          event-type: manual-publish
+          client-payload: '{"version": "${{ steps.semantic.outputs.VERSION }}"}' 
