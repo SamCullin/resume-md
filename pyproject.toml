@@ -1,0 +1,67 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "resume-md"
+version = "0.1.0"
+description = "Generate HTML resume from markdown"
+readme = "README.md"
+requires-python = ">=3.12"
+authors = [
+    {name = "Sam Cullin", email = "sam@example.com"},
+]
+license = {text = "MIT"}
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Text Processing :: Markup",
+    "Topic :: Office/Business",
+]
+keywords = ["resume", "markdown", "html", "tailwind", "generator"]
+dependencies = [
+    "importlib_resources>=1.4.0; python_version < '3.9'",
+]
+
+[project.optional-dependencies]
+dev = []
+test = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/SamCullin/resume-md"
+"Bug Tracker" = "https://github.com/SamCullin/resume-md/issues"
+"Source" = "https://github.com/SamCullin/resume-md"
+
+[project.scripts]
+resume-md = "resume_md.main:main"
+
+[tool.setuptools.packages.find]
+include = ["resume_md*"]
+
+[tool.setuptools.package-data]
+resume_md = ["template.html"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.black]
+line-length = 88
+target-version = ["py312"]
+
+[tool.isort]
+profile = "black"
+line_length = 88
+
+[dependency-groups]
+dev = [
+    "black>=25.1.0",
+    "isort>=6.0.1",
+    "pytest>=8.3.5",
+]

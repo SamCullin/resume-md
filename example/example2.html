@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Example2</title>
+    <!-- Include Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Custom Tailwind configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1a5276', /* Professional deep blue */
+                        secondary: '#2980b9', /* Lighter blue for accents */
+                        neutral: '#f8f9fa',
+                        dark: '#2c3e50',
+                    },
+                    fontFamily: {
+                        sans: ['Roboto', 'Arial', 'sans-serif'],
+                    },
+                }
+            },
+            plugins: [
+                function({ addBase, theme }) {
+                    addBase({
+                        '@media print': {
+                            'body': {
+                                fontSize: '0.95em',
+                            },
+                            '.text-xs': {
+                                fontSize: 'calc(0.75rem - 0.05rem)',
+                            },
+                            '.text-sm': {
+                                fontSize: 'calc(0.875rem - 0.05rem)',
+                            },
+                            '.text-base': {
+                                fontSize: 'calc(1rem - 0.05rem)',
+                            },
+                            '.text-lg': {
+                                fontSize: 'calc(1.125rem - 0.05rem)',
+                            },
+                            '.text-xl': {
+                                fontSize: 'calc(1.25rem - 0.05rem)',
+                            },
+                            '.text-2xl': {
+                                fontSize: 'calc(1.5rem - 0.05rem)',
+                            },
+                            '.text-3xl': {
+                                fontSize: 'calc(1.875rem - 0.05rem)',
+                            },
+                            '.text-4xl': {
+                                fontSize: 'calc(2.25rem - 0.05rem)',
+                            },
+                        }
+                    });
+                }
+            ],
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* Add custom styles that can't be achieved with Tailwind */
+        @page {
+            size: A4;
+        }
+        
+        /* Ensure backgrounds print */
+        @media print {
+            /* Apply to all elements with backgrounds that need to print */
+            .bg-primary, .bg-secondary, .bg-opacity-10, [class*="bg-"] {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                color-adjust: exact !important;
+            }
+            body {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+                color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+<body class="font-sans text-gray-800 bg-white print:m-0 print:p-0">
+    <!-- Main container with max width -->
+    <div class="max-w-[800px] mx-auto mt-8 mb-6 bg-white shadow-lg print:shadow-none print:m-0 print:p-0 print:relative">
+        <!-- Resume banner section with resume-banner class -->
+        <div class="resume-banner w-full">
+            
+        <div class="w-full bg-primary text-white print:px-[1cm] px-8 py-2">
+            <div class="flex flex-row items-center justify-between w-full"><div class="flex-shrink-0"><h1 class="text-2xl font-bold">Lorem Ipsum, BSc</h1></div><div class="flex-shrink-0 ml-auto"><div class="mx-auto text-right contact-info" style="text-align: right;"><div class="contact-item text-right" style="text-align: right;"><strong class="font-bold">Email:</strong> <a href="mailto:lorem@ipsum.com" class="hover:underline">lorem@ipsum.com</a></div><div class="contact-item text-right" style="text-align: right;"><strong class="font-bold">Mobile:</strong> <a href="tel:+12345678900" class="hover:underline">+1 234 567 890</a></div><div class="contact-item text-right" style="text-align: right;"><strong class="font-bold">LinkedIn:</strong> <a href="https://www.linkedin.com/in/loremipsum/" class="hover:underline">linkedin.com/in/loremipsum</a></div></div></div></div>
+        </div>  
+        
+        </div>
+        
+        <!-- Main content area -->
+        <main class="px-8 py-4 print:pt-4 print:px-[1cm]">
+            <h2 class="text-xl font-bold text-primary mb-2 pb-1 pt-2 border-b border-gray-300">Profile</h2>
+<p class="my-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas vehicula, nunc at faucibus malesuada, tortor urna commodo urna, non fermentum magna ligula eget velit. Donec vitae convallis justo.</p>
+<h2 class="text-xl font-bold text-primary mb-2 pb-1 pt-2 border-b border-gray-300">Key Skills</h2>
+<ul class="list-disc pl-5 my-2 space-y-1 mb-4"><li class="mb-1.5"><strong class="font-bold">Key Skill 1:</strong> Lorem ipsum dolor · sit amet consectetur · adipiscing elit</li><li class="mb-1.5"><strong class="font-bold">Key Skill 2:</strong> Adipiscing elit · maecenas vehicula · nunc at faucibus · malesuada tortor</li><li class="mb-1.5"><strong class="font-bold">Key Skill 3:</strong> Maecenas vehicula · nunc at faucibus · malesuada tortor</li></ul>
+<h2 class="text-xl font-bold text-primary mb-2 pb-1 pt-2 border-b border-gray-300">Education</h2>
+<table class="w-full border-collapse my-2 mb-4"><thead><tr><th class="bg-primary bg-opacity-10 text-primary font-semibold text-left p-1 print:bg-primary print:bg-opacity-10">Institution</th><th class="bg-primary bg-opacity-10 text-primary font-semibold text-left p-1 print:bg-primary print:bg-opacity-10">Qualification</th><th class="bg-primary bg-opacity-10 text-primary font-semibold text-left p-1 print:bg-primary print:bg-opacity-10">Year</th></tr></thead><tbody><tr><td class="border border-gray-200 p-1 text-left">Lorem Univ</td><td class="border border-gray-200 p-1 text-left">Lorem Ipsum Dolor Sit Amet</td><td class="border border-gray-200 p-1 text-left">20XX – Present</td></tr><tr><td class="border border-gray-200 p-1 text-left">Ipsum Inst</td><td class="border border-gray-200 p-1 text-left">Bachelor of Science in Lorem Ipsum</td><td class="border border-gray-200 p-1 text-left">20XX – 20XX</td></tr><tr><td class="border border-gray-200 p-1 text-left">Dolor Acad</td><td class="border border-gray-200 p-1 text-left">Certificate in Sit Amet Consectetur</td><td class="border border-gray-200 p-1 text-left">20XX</td></tr></tbody></table>
+<h2 class="text-xl font-bold text-primary mb-2 pb-1 pt-2 border-b border-gray-300">Personal Projects</h2>
+<ul class="list-disc pl-5 my-2 space-y-1 mb-4"><li class="mb-1.5"><strong class="font-bold">Lorem Ipsum Project:</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas vehicula, nunc at faucibus malesuada, tortor urna commodo urna, non fermentum magna ligula eget velit.</li><li class="mb-1.5"><strong class="font-bold">Dolor Sit Project:</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas vehicula, nunc at faucibus malesuada.</li><li class="mb-1.5"><strong class="font-bold">Consectetur Project:</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas vehicula, nunc at faucibus malesuada.</li><li class="mb-1.5"><strong class="font-bold">Adipiscing Project:</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas vehicula, nunc at faucibus malesuada.</li></ul>
+<h2 class="text-xl font-bold text-primary mb-2 pb-1 pt-2 border-b border-gray-300">Employment History</h2>
+<h3 class="text-base font-bold text-primary mt-2 mb-1">Lorem Technologies — Lorem Ipsum Industry</h3>
+<h4 class="text-sm font-semibold text-gray-800 mt-1 mb-1">Tittle 1 → Tittle 2</h4>
+<h5 class="text-xs font-semibold text-gray-800 mt-1 mb-1"><a href="https://lorem.com" class="hover:underline">lorem.com</a> | 20XX – 20XX</h5>
+<ul class="list-disc pl-5 my-2 space-y-1 mb-4"><li class="mb-1.5">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas vehicula, nunc at faucibus malesuada, tortor urna commodo urna, non fermentum magna ligula eget velit. Donec vitae convallis justo.</li><li class="mb-1.5">Etiam in est vitae tellus convallis iaculis vitae non libero. Aliquam erat volutpat. Sed auctor dui ac diam pretium, non tempus augue finibus.</li><li class="mb-1.5">Suspendisse vel commodo quam. Curabitur elementum justo tortor, id elementum nulla dapibus eu. In pellentesque suscipit nibh, a tincidunt diam imperdiet quis.</li><li class="mb-1.5">Nullam et semper enim. Praesent vestibulum risus ac arcu euismod, in ultricies sem rutrum. Praesent semper vestibulum ex, nec blandit nunc blandit id.</li></ul>
+<h3 class="text-base font-bold text-primary mt-2 mb-1">Dolor Corporation — Global Enterprise</h3>
+<h4 class="text-sm font-semibold text-gray-800 mt-1 mb-1">Tittle 1 → Tittle 2</h4>
+<h5 class="text-xs font-semibold text-gray-800 mt-1 mb-1"><a href="https://dolor.com" class="hover:underline">dolor.com</a> | 20XX – 20XX</h5>
+<ul class="list-disc pl-5 my-2 space-y-1 mb-4"><li class="mb-1.5">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas vehicula, nunc at faucibus malesuada, tortor urna commodo urna, non fermentum magna ligula eget velit.</li><li class="mb-1.5">Donec vitae convallis justo. Etiam in est vitae tellus convallis iaculis vitae non libero. Aliquam erat volutpat.</li><li class="mb-1.5">Sed auctor dui ac diam pretium, non tempus augue finibus. Suspendisse vel commodo quam. Curabitur elementum justo tortor, id elementum nulla dapibus eu.</li><li class="mb-1.5">In pellentesque suscipit nibh, a tincidunt diam imperdiet quis. Nullam et semper enim. Praesent vestibulum risus ac arcu euismod, in ultricies sem rutrum.</li></ul>
+<h3 class="text-base font-bold text-primary mt-2 mb-1">Amet Solutions — Technology Consultancy</h3>
+<h4 class="text-sm font-semibold text-gray-800 mt-1 mb-1">Tittle 1 → Tittle 2</h4>
+<h5 class="text-xs font-semibold text-gray-800 mt-1 mb-1">20XX – 20XX</h5>
+<ul class="list-disc pl-5 my-2 space-y-1 mb-4"><li class="mb-1.5">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas vehicula, nunc at faucibus malesuada, tortor urna commodo urna, non fermentum magna ligula eget velit.</li><li class="mb-1.5">Donec vitae convallis justo. Etiam in est vitae tellus convallis iaculis vitae non libero. Aliquam erat volutpat. Sed auctor dui ac diam pretium, non tempus augue finibus.</li><li class="mb-1.5">Suspendisse vel commodo quam. Curabitur elementum justo tortor, id elementum nulla dapibus eu. In pellentesque suscipit nibh, a tincidunt diam imperdiet quis.</li><li class="mb-1.5">Nullam et semper enim. Praesent vestibulum risus ac arcu euismod, in ultricies sem rutrum. Praesent semper vestibulum ex, nec blandit nunc blandit id.</li></ul>
+        </main>
+        
+        <!-- Footer with subtle branding -->
+        <footer class="bg-neutral px-8 py-3 border-t border-gray-200 text-center text-gray-500 text-sm print:hidden">
+            <p>Created with Markdown Resume Generator &mdash; <a href="https://github.com/SamCullin/resume-md" class="text-primary hover:underline" target="_blank" rel="noopener">View on GitHub</a></p>
+        </footer>
+    </div>
+    
+    <!-- Print button -->
+    <div class="fixed bottom-4 right-4 print:hidden">
+        <button onclick="window.print()" class="bg-secondary hover:bg-primary text-white px-4 py-2 rounded shadow transition-colors duration-300">
+            Print Resume
+        </button>
+    </div>
+</body>
+</html> 

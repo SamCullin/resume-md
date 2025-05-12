@@ -1,0 +1,99 @@
+# UV Package Manager Rules
+# This project uses uv instead of pip/python
+# https://github.com/astral-sh/uv
+
+# Rule: Redirect python/pip commands to use uv instead
+# Format: "original_command" -> "uv_equivalent_command"
+[redirects]
+python_pip_install = {
+    "match": "python -m pip install",
+    "replace": "uv add"
+}
+pip_install = {
+    "match": "pip install",
+    "replace": "uv add"
+}
+pip_uninstall = {
+    "match": "pip uninstall",
+    "replace": "uv remove"
+}
+pip_freeze = {
+    "match": "pip freeze",
+    "replace": "uv pip freeze"
+}
+pip_list = {
+    "match": "pip list",
+    "replace": "uv pip list"
+}
+pip_show = {
+    "match": "pip show",
+    "replace": "uv pip show"
+}
+pip_search = {
+    "match": "pip search",
+    "replace": "uv pip search"
+}
+pip_download = {
+    "match": "pip download",
+    "replace": "uv pip download"
+}
+pip_check = {
+    "match": "pip check",
+    "replace": "uv pip check"
+}
+pip_config = {
+    "match": "pip config",
+    "replace": "uv pip config"
+}
+pip_wheel = {
+    "match": "pip wheel",
+    "replace": "uv pip wheel"
+}
+pip_hash = {
+    "match": "pip hash",
+    "replace": "uv pip hash"
+}
+pip_cache = {
+    "match": "pip cache",
+    "replace": "uv pip cache"
+}
+python_venv = {
+    "match": "python -m venv",
+    "replace": "uv venv"
+}
+python_pip_sync = {
+    "match": "python -m pip sync",
+    "replace": "uv sync"
+}
+pip_compile = {
+    "match": "pip-compile",
+    "replace": "uv pip compile"
+}
+
+# Rule: Warn about using pip directly
+# Format: "command" -> "warning_message"
+[warnings]
+pip_direct = {
+    "match": "pip",
+    "message": "This project uses uv instead of pip. Try using 'uv pip' instead."
+}
+python_pip = {
+    "match": "python -m pip",
+    "message": "This project uses uv instead of pip. Try using 'uv pip' instead."
+}
+python_venv_direct = {
+    "match": "python -m venv",
+    "message": "This project uses uv for virtual environments. Try using 'uv venv' instead."
+}
+
+# Rule: Provide helpful suggestions
+# Format: "file_or_command" -> "suggestion_message"
+[suggestions]
+requirements_txt = {
+    "match": "requirements.txt",
+    "message": "Consider using 'uv pip compile' to generate requirements.txt from pyproject.toml"
+}
+setup_py = {
+    "match": "setup.py",
+    "message": "Consider using pyproject.toml instead of setup.py for modern Python packaging"
+}
