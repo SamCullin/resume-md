@@ -5,6 +5,11 @@ on:
     branches:
       - main
 
+# Prevent concurrent deployments to avoid conflicts
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: write
   id-token: write
@@ -15,25 +20,26 @@ jobs:
   semantic-release:
     name: Semantic Release
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     outputs:
       new_release_created: ${{ steps.release_check.outputs.new_release }}
       release_tag: ${{ steps.release_check.outputs.tag }}
       release_version: ${{ steps.release_check.outputs.version }}
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
       
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - name: Set up UV
+        id: setup-uv
+        uses: astral-sh/setup-uv@v6
         with:
-          python-version: '3.12'
+          enable-cache: true
       
       - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install python-semantic-release build
+        run: uv sync --locked --only-dev
       
       # Store current tags before release
       - name: Get current tags
@@ -45,7 +51,7 @@ jobs:
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
-          semantic-release version -v
+          semantic-release version
       
       # Check if a new tag was created by comparing before and after
       - name: Check for new release
@@ -72,72 +78,110 @@ jobs:
     needs: semantic-release
     if: needs.semantic-release.outputs.new_release_created == 'true'
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
-    - uses: actions/checkout@v4
-      with:
-        ref: ${{ needs.semantic-release.outputs.release_tag }}
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.12'
-    - name: Install build
-      run: >-
-        python -m
-        pip install
-        build
-        --user
-    - name: Build distributions
-      run: python -m build
-    - name: Store the distribution packages
-      uses: actions/upload-artifact@v4
-      with:
-        name: python-package-distributions
-        path: dist/
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.semantic-release.outputs.release_tag }}
+      
+      - name: Set up UV
+        id: setup-uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+      
+      - name: Install build dependencies
+        run: uv pip install build
+      
+      - name: Build distributions
+        run: python -m build
+      
+      - name: Store the distribution packages
+        uses: actions/upload-artifact@v4
+        with:
+          name: python-package-distributions
+          path: dist/
+          retention-days: 7
+          if-no-files-found: error
 
   publish-to-pypi:
     name: Publish to PyPI
     needs: [semantic-release, build]
     if: needs.semantic-release.outputs.new_release_created == 'true'
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     environment:
       name: pypi
       url: https://pypi.org/p/resume-md
     permissions:
       id-token: write  # Required for trusted publishing
     steps:
-    - name: Download distributions
-      uses: actions/download-artifact@v4
-      with:
-        name: python-package-distributions
-        path: dist/
-    - name: Publish to PyPI
-      uses: pypa/gh-action-pypi-publish@release/v1
+      - name: Download distributions
+        uses: actions/download-artifact@v4
+        with:
+          name: python-package-distributions
+          path: dist/
+      
+      - name: Set up UV
+        id: setup-uv
+        uses: astral-sh/setup-uv@v6
+      
+      - name: Install twine
+        run: uv pip install twine
+      
+      - name: Verify distributions
+        run: twine check dist/*
+      
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          verbose: true
+          print-hash: true
 
   sign-and-upload:
     name: Sign and Upload to GitHub Release
     needs: [semantic-release, publish-to-pypi]
     if: needs.semantic-release.outputs.new_release_created == 'true'
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     permissions:
       contents: write
       id-token: write
     steps:
-    - name: Download distributions
-      uses: actions/download-artifact@v4
-      with:
-        name: python-package-distributions
-        path: dist/
-    - name: Sign the distributions with Sigstore
-      uses: sigstore/gh-action-sigstore-python@v3.0.0
-      with:
-        inputs: >-
-          ./dist/*.tar.gz
-          ./dist/*.whl
-    - name: Upload artifacts to GitHub Release
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        TAG: ${{ needs.semantic-release.outputs.release_tag }}
-      run: >-
-        gh release upload
-        "$TAG" dist/**
-        --repo "$GITHUB_REPOSITORY" 
+      - name: Download distributions
+        uses: actions/download-artifact@v4
+        with:
+          name: python-package-distributions
+          path: dist/
+      
+      - name: Set up UV
+        id: setup-uv
+        uses: astral-sh/setup-uv@v6
+      
+      - name: Install sigstore
+        run: uv pip install sigstore
+      
+      - name: Sign the distributions with Sigstore
+        uses: sigstore/gh-action-sigstore-python@v3.0.0
+        with:
+          inputs: >-
+            ./dist/*.tar.gz
+            ./dist/*.whl
+      
+      - name: Upload artifacts to GitHub Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ needs.semantic-release.outputs.release_tag }}
+        run: >-
+          gh release upload
+          "$TAG" dist/**
+          --repo "$GITHUB_REPOSITORY"
+          --clobber
+      
+      - name: Clean up artifacts
+        if: always()
+        uses: geekyeggo/delete-artifact@v2
+        with:
+          name: python-package-distributions
+          failOnError: false 
