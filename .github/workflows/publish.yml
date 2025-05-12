@@ -26,8 +26,10 @@ jobs:
         with:
           python-version: '3.12'
       
-      - name: Install python-semantic-release
-        run: pip install python-semantic-release
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install python-semantic-release build
       
       # Store current tags before release
       - name: Get current tags
