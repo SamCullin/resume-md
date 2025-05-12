@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/SamCullin/resume-md/compare/v1.0.0...v1.0.1) (2025-05-12)
+
+
+### Bug Fixes
+
+* testing if this triggers pypi release ([c1b7768](https://github.com/SamCullin/resume-md/commit/c1b7768585cd3b273099d9b5b6da4886b9692a36))
+
 # 1.0.0 (2025-05-12)
 
 
