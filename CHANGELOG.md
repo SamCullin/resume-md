@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v1.0.9 (2025-05-12)
+
+### Bug Fixes
+
+- Set pypi env for auth
+  ([`7d1f8fa`](https://github.com/SamCullin/resume-md/commit/7d1f8fa4802bf82ff2594144bf2c06b34337af07))
+
+
 ## v1.0.8 (2025-05-12)
 
 ### Bug Fixes
