@@ -1,46 +1,17 @@
-name: Publish Python Package
+name: Publish to PyPI
 
-on: push
+on:
+  release:
+    types: [created]
 
 jobs:
-  semantic-release:
-    name: Semantic Release
-    runs-on: ubuntu-latest
-    outputs:
-      new_release_published: ${{ steps.semantic.outputs.new_release_published }}
-      new_release_version: ${{ steps.semantic.outputs.new_release_version }}
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          persist-credentials: false
-      - name: Use Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-      - name: Install semantic-release
-        run: npm install -g semantic-release @semantic-release/changelog @semantic-release/git @semantic-release/commit-analyzer @semantic-release/release-notes-generator @semantic-release/exec
-      - name: Setup Git User
-        run: |
-          git config --global user.name "GitHub Actions"
-          git config --global user.email "actions@github.com"
-      - name: Run semantic-release
-        id: semantic
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          semantic-release --branches main
-
   build:
     name: Build distribution 📦
-    needs: semantic-release
-    if: ${{ needs.semantic-release.outputs.new_release_published == 'true' }}
     runs-on: ubuntu-latest
-
+    permissions:
+      contents: read
     steps:
     - uses: actions/checkout@v4
-      with:
-        ref: main
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
@@ -63,14 +34,11 @@ jobs:
     name: Publish to PyPI
     needs: build
     runs-on: ubuntu-latest
-
     environment:
       name: pypi
       url: https://pypi.org/p/resume-md
-
     permissions:
       id-token: write  # Required for trusted publishing
-
     steps:
     - name: Download distributions
       uses: actions/download-artifact@v4
@@ -80,14 +48,13 @@ jobs:
     - name: Publish to PyPI
       uses: pypa/gh-action-pypi-publish@release/v1
 
-  github-release:
-    name: Create GitHub Release
+  sign-and-upload:
+    name: Sign and Upload to GitHub Release
     needs: publish-to-pypi
     runs-on: ubuntu-latest
     permissions:
       contents: write
       id-token: write
-
     steps:
     - name: Download distributions
       uses: actions/download-artifact@v4
@@ -100,20 +67,10 @@ jobs:
         inputs: >-
           ./dist/*.tar.gz
           ./dist/*.whl
-    - name: Create GitHub Release
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        VERSION: ${{ needs.semantic-release.outputs.new_release_version }}
-      run: >-
-        gh release create
-        "v$VERSION"
-        --repo "$GITHUB_REPOSITORY"
-        --notes "Release v$VERSION"
     - name: Upload artifacts to GitHub Release
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        VERSION: ${{ needs.semantic-release.outputs.new_release_version }}
       run: >-
         gh release upload
-        "v$VERSION" dist/**
+        "$GITHUB_REF_NAME" dist/**
         --repo "$GITHUB_REPOSITORY" 
