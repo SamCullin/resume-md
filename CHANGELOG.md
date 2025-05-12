@@ -1,6 +1,38 @@
 # CHANGELOG
 
 
+## v1.0.6 (2025-05-12)
+
+### Bug Fixes
+
+- Added .flake8 config
+  ([`fe1320a`](https://github.com/SamCullin/resume-md/commit/fe1320a49cb79eb8bb3ac67e8afb70bf763ee55c))
+
+- Added uv prefix to ci commands
+  ([`a3d0175`](https://github.com/SamCullin/resume-md/commit/a3d01751c0da37d8063a139864d08537bdd44652))
+
+- Added uv run prefix to ci commands
+  ([`a293631`](https://github.com/SamCullin/resume-md/commit/a293631b7948328bc1fc79ca004b593bed1e31c4))
+
+- Format
+  ([`d87aa6a`](https://github.com/SamCullin/resume-md/commit/d87aa6a5e51dfdcf8bfbb7d5a4d57b43c903aeb5))
+
+- Removed coverage and updated publish to use uv run
+  ([`9062f91`](https://github.com/SamCullin/resume-md/commit/9062f91c5f41af6ac28a4c5b348aef3ee94c7ba7))
+
+- Removed local install of package from ci
+  ([`1f71283`](https://github.com/SamCullin/resume-md/commit/1f71283c8093471af3fda04d23b79139ad879abc))
+
+- Sync of black and flake8
+  ([`b6543b8`](https://github.com/SamCullin/resume-md/commit/b6543b809bb45e2391441f3414b1516f1c66a26d))
+
+- Updated to use uv actions
+  ([`fbf72e5`](https://github.com/SamCullin/resume-md/commit/fbf72e5c714ab8aefbbda244b6d46ef0509ae9a4))
+
+- Updated to use uv sync and add
+  ([`1018601`](https://github.com/SamCullin/resume-md/commit/1018601ab43214cd7af378c1e8f74dc41f760ba4))
+
+
 ## v1.0.5 (2025-05-12)
 
 ### Bug Fixes
