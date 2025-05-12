@@ -38,11 +38,11 @@ class MarkdownTokenizer:
                 i = self._process_paragraph(lines, i)
 
         return self.tokens
-    
+
     def _is_header(self, line: str) -> bool:
         """Check if the line is a header."""
         return bool(re.match(r"^(#{1,6})\s+(.*?)(?:\s+#+)?$", line))
-    
+
     def _process_header(self, lines: list[str], i: int) -> int:
         """Process a header line and add it to tokens."""
         line = lines[i]
@@ -50,18 +50,18 @@ class MarkdownTokenizer:
         if header_match:
             level = len(header_match.group(1))
             content = header_match.group(2).strip()
-            self.tokens.append(
-                {"type": "heading", "level": level, "content": content}
-            )
+            self.tokens.append({"type": "heading", "level": level, "content": content})
         return i + 1
-    
+
     def _is_table(self, lines: list[str], i: int) -> bool:
         """Check if the current position contains a table."""
-        return (i + 1 < len(lines) and 
-                "|" in lines[i] and 
-                "|" in lines[i + 1] and 
-                bool(re.match(r"^[\s|:*-]+$", lines[i + 1])))
-    
+        return (
+            i + 1 < len(lines)
+            and "|" in lines[i]
+            and "|" in lines[i + 1]
+            and bool(re.match(r"^[\s|:*-]+$", lines[i + 1]))
+        )
+
     def _process_table(self, lines: list[str], i: int) -> int:
         """Process a table and add it to tokens."""
         headers = [cell.strip() for cell in lines[i].strip("|").split("|")]
@@ -95,11 +95,11 @@ class MarkdownTokenizer:
             }
         )
         return i
-    
+
     def _is_list_item(self, line: str) -> bool:
         """Check if the line is a list item."""
         return bool(re.match(r"^(\s*)([*+-]|\d+\.)\s+(.*?)$", line))
-    
+
     def _process_list(self, lines: list[str], i: int) -> int:
         """Process a list and add it to tokens."""
         line = lines[i]
@@ -121,11 +121,9 @@ class MarkdownTokenizer:
                 else:
                     break
 
-            self.tokens.append(
-                {"type": "list", "list_type": list_type, "items": items}
-            )
+            self.tokens.append({"type": "list", "list_type": list_type, "items": items})
         return i
-    
+
     def _process_paragraph(self, lines: list[str], i: int) -> int:
         """Process a paragraph and add it to tokens."""
         paragraph_content = [lines[i]]
