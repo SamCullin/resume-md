@@ -68,6 +68,7 @@ dev = [
     "isort>=6.0.1",
     "pytest>=8.3.5",
     "python-semantic-release>=9.21.1",
+    "sigstore>=0.8.3",
 ]
 
 [tool.semantic_release]
@@ -77,7 +78,7 @@ version_variable = [
 branch = "main"
 upload_to_pypi = false
 upload_to_release = true
-build_command = "uv pip install build && python -m build"
+build_command = "uv build"
 github_token_var = "GITHUB_TOKEN"
 commit_author = "github-actions <actions@github.com>"
 repository = "SamCullin/resume-md"

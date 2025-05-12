@@ -34,8 +34,8 @@ jobs:
     
     - name: Install dependencies
       run: |
-        uv pip install flake8 pytest pytest-cov black isort
-        uv pip install -e .
+        uv sync --locked
+        uv add -e .
     
     - name: Lint with flake8
       run: |

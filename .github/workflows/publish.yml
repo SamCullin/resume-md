@@ -92,10 +92,10 @@ jobs:
           enable-cache: true
       
       - name: Install build dependencies
-        run: uv pip install build
+        run: uv sync --locked --only-dev
       
       - name: Build distributions
-        run: python -m build
+        run: uv build
       
       - name: Store the distribution packages
         uses: actions/upload-artifact@v4
@@ -128,7 +128,7 @@ jobs:
         uses: astral-sh/setup-uv@v6
       
       - name: Install twine
-        run: uv pip install twine
+        run: uv add twine
       
       - name: Verify distributions
         run: twine check dist/*
@@ -160,7 +160,7 @@ jobs:
         uses: astral-sh/setup-uv@v6
       
       - name: Install sigstore
-        run: uv pip install sigstore
+        run: uv add sigstore
       
       - name: Sign the distributions with Sigstore
         uses: sigstore/gh-action-sigstore-python@v3.0.0
