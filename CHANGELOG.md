@@ -1,7 +1,21 @@
 # CHANGELOG
 
 
-## v1.0.7 (2025-05-13)
+## v1.0.8 (2025-05-12)
+
+### Bug Fixes
+
+- Force install build before running
+  ([`3be9c0b`](https://github.com/SamCullin/resume-md/commit/3be9c0b2b8e1e88cfbcfbf74691e4d81c38590b8))
+
+- Use python -m build rather than uv build
+  ([`53c5683`](https://github.com/SamCullin/resume-md/commit/53c568359a70e0c4790a8aed795e29db83f490cf))
+
+- Used template from semantic-release
+  ([`2db29fb`](https://github.com/SamCullin/resume-md/commit/2db29fb79ecbf5e050b02f16774645d9b8448cf4))
+
+
+## v1.0.7 (2025-05-12)
 
 ### Bug Fixes
 
