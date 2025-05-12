@@ -9,7 +9,6 @@ class ResumeComponent(ABC):
     @abstractmethod
     def get_component_type(self) -> str:
         """Returns the type of the component"""
-        pass
 
 
 @dataclass

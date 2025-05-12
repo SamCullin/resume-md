@@ -1,5 +1,5 @@
 import re
-from typing import Dict, List, Optional, cast
+from typing import Dict, List, cast
 
 from .components import (
     HeadingComponent,

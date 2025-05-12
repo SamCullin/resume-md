@@ -56,14 +56,28 @@ testpaths = ["tests"]
 line-length = 88
 target-version = ["py39", "py310", "py311", "py312"]
 
+[tool.flake8]
+max-line-length = 88
+extend-ignore = "E203,E501,W291,F541,F401,F841,W503"  # Allow black's formatting decisions
+exclude = [
+    ".git",
+    "__pycache__",
+    "build",
+    "dist",
+    ".venv",
+    ".direnv",
+]
+
 [tool.isort]
 profile = "black"
 line_length = 88
 
 [dependency-groups]
 dev = [
+    "autoflake>=2.3.1",
     "black>=25.1.0",
     "build>=1.2.2.post1",
+    "flake8>=7.2.0",
     "isort>=6.0.1",
     "pytest>=8.3.5",
     "python-semantic-release>=9.21.1",
