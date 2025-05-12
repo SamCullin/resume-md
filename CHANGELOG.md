@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v1.0.7 (2025-05-12)
+
+### Bug Fixes
+
+- Create release issue
+  ([`05fb970`](https://github.com/SamCullin/resume-md/commit/05fb970fac4631ec44b66d784364e934848993fa))
+
+
 ## v1.0.6 (2025-05-12)
 
 ### Bug Fixes
