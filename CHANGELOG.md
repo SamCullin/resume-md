@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/SamCullin/resume-md/compare/v1.0.1...v1.0.2) (2025-05-12)
+
+
+### Bug Fixes
+
+* split release and publish workflows ([7776892](https://github.com/SamCullin/resume-md/commit/777689289a2f7f8d8876647bf7f199e516dffe44))
+
 ## [1.0.1](https://github.com/SamCullin/resume-md/compare/v1.0.0...v1.0.1) (2025-05-12)
 
 
