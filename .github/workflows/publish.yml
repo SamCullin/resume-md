@@ -1,187 +1,111 @@
-name: Semantic Release and Publish
+name: Continuous Delivery
 
 on:
   push:
     branches:
       - main
 
-# Prevent concurrent deployments to avoid conflicts
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
-permissions:
-  contents: write
-  id-token: write
-  issues: write
-  pull-requests: write
-  packages: write
-
 jobs:
-  semantic-release:
-    name: Semantic Release
+  release:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
-    # Explicitly set permissions for this job
+    concurrency:
+      group: ${{ github.workflow }}-release-${{ github.ref_name }}
+      cancel-in-progress: false
+
     permissions:
-      contents: write      # for creating releases
-      issues: write        # for commenting on issues
-      pull-requests: write # for commenting on PRs
-      id-token: write      # for OIDC
-    outputs:
-      new_release_created: ${{ steps.release_check.outputs.new_release }}
-      release_tag: ${{ steps.release_check.outputs.tag }}
-      release_version: ${{ steps.release_check.outputs.version }}
+      id-token: write
+      contents: write
+      issues: write
+      pull-requests: write
+
     steps:
-      - name: Checkout code
+      # Note: We checkout the repository at the branch that triggered the workflow
+      # with the entire history to ensure to match PSR's release branch detection
+      # and history evaluation.
+      # However, we forcefully reset the branch to the workflow sha because it is
+      # possible that the branch was updated while the workflow was running. This
+      # prevents accidentally releasing un-evaluated changes.
+      - name: Setup | Checkout Repository on Release Branch
         uses: actions/checkout@v4
         with:
+          ref: ${{ github.ref_name }}
           fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
-      
-      - name: Set up UV
+
+      - name: Setup | Force release branch to be at workflow sha
+        run: |
+          git reset --hard ${{ github.sha }}
+
+      - name: Setup | Set up UV
         id: setup-uv
         uses: astral-sh/setup-uv@v6
         with:
           enable-cache: true
       
-      - name: Install dependencies
+      - name: Setup | Install dependencies
         run: uv sync --locked --only-dev
       
-      # Store current tags before release
-      - name: Get current tags
-        run: git tag > before_tags.txt
-      
-      - name: Run semantic-release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Evaluate | Verify upstream has NOT changed
+        # Last chance to abort before causing an error as another PR/push was applied to
+        # the upstream branch while this workflow was running. This is important
+        # because we are committing a version change (--commit). You may omit this step
+        # if you have 'commit: false' in your configuration.
+        shell: bash
         run: |
-          git config --global user.name "GitHub Actions"
-          git config --global user.email "actions@github.com"
-          uv run semantic-release version
-      
-      # Check if a new tag was created by comparing before and after
-      - name: Check for new release
-        id: release_check
-        run: |
-          git fetch --tags
-          git tag > after_tags.txt
-          NEW_TAGS=$(comm -13 before_tags.txt after_tags.txt)
-          if [ -n "$NEW_TAGS" ]; then
-            echo "new_release=true" >> $GITHUB_OUTPUT
-            TAG=$(echo "$NEW_TAGS" | head -n 1)
-            echo "tag=$TAG" >> $GITHUB_OUTPUT
-            # Extract version without 'v' prefix if it exists
-            VERSION=${TAG#v}
-            echo "version=$VERSION" >> $GITHUB_OUTPUT
-            echo "New release detected: $TAG (version $VERSION)"
-          else
-            echo "new_release=false" >> $GITHUB_OUTPUT
-            echo "No new release detected"
+          set +o pipefail
+
+          UPSTREAM_BRANCH_NAME="$(git status -sb | head -n 1 | cut -d' ' -f2 | grep -E '\.{3}' | cut -d'.' -f4)"
+          printf '%s\n' "Upstream branch name: $UPSTREAM_BRANCH_NAME"
+
+          set -o pipefail
+
+          if [ -z "$UPSTREAM_BRANCH_NAME" ]; then
+              printf >&2 '%s\n' "::error::Unable to determine upstream branch name!"
+              exit 1
           fi
 
-  build:
-    name: Build distribution 📦
-    needs: semantic-release
-    if: needs.semantic-release.outputs.new_release_created == 'true'
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ needs.semantic-release.outputs.release_tag }}
-      
-      - name: Set up UV
-        id: setup-uv
-        uses: astral-sh/setup-uv@v6
-        with:
-          enable-cache: true
-      
-      - name: Install build dependencies
-        run: uv sync --locked --only-dev
-      
-      - name: Build distributions
-        run: uv build
-      
-      - name: Store the distribution packages
-        uses: actions/upload-artifact@v4
-        with:
-          name: python-package-distributions
-          path: dist/
-          retention-days: 7
-          if-no-files-found: error
+          git fetch "${UPSTREAM_BRANCH_NAME%%/*}"
 
-  publish-to-pypi:
-    name: Publish to PyPI
-    needs: [semantic-release, build]
-    if: needs.semantic-release.outputs.new_release_created == 'true'
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    environment:
-      name: pypi
-      url: https://pypi.org/p/resume-md
-    permissions:
-      id-token: write  # Required for trusted publishing
-    steps:
-      - name: Download distributions
-        uses: actions/download-artifact@v4
+          if ! UPSTREAM_SHA="$(git rev-parse "$UPSTREAM_BRANCH_NAME")"; then
+              printf >&2 '%s\n' "::error::Unable to determine upstream branch sha!"
+              exit 1
+          fi
+
+          HEAD_SHA="$(git rev-parse HEAD)"
+
+          if [ "$HEAD_SHA" != "$UPSTREAM_SHA" ]; then
+              printf >&2 '%s\n' "[HEAD SHA] $HEAD_SHA != $UPSTREAM_SHA [UPSTREAM SHA]"
+              printf >&2 '%s\n' "::error::Upstream has changed, aborting release..."
+              exit 1
+          fi
+
+          printf '%s\n' "Verified upstream branch has not changed, continuing with release..."
+
+      - name: Action | Semantic Version Release
+        id: release
+        uses: python-semantic-release/python-semantic-release@v9.21.1
         with:
-          name: python-package-distributions
-          path: dist/
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          git_committer_name: "github-actions"
+          git_committer_email: "actions@users.noreply.github.com"
+
+      - name: Publish | Upload to GitHub Release Assets
+        uses: python-semantic-release/publish-action@v9.21.1
+        if: steps.release.outputs.released == 'true'
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ steps.release.outputs.tag }}
       
-      - name: Set up UV
-        id: setup-uv
-        uses: astral-sh/setup-uv@v6
-      
-      - name: Install twine
-        run: uv add twine
-      
-      - name: Verify distributions
-        run: uv run twine check dist/*
-      
-      - name: Publish to PyPI
+      - name: Publish | Upload package to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
+        if: steps.release.outputs.released == 'true'
         with:
           verbose: true
           print-hash: true
-
-  sign-and-upload:
-    name: Sign and Upload to GitHub Release
-    needs: [semantic-release, publish-to-pypi]
-    if: needs.semantic-release.outputs.new_release_created == 'true'
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    permissions:
-      contents: write  # Required for uploading to releases
-      id-token: write  # Required for signing
-    steps:
-      - name: Download distributions
-        uses: actions/download-artifact@v4
-        with:
-          name: python-package-distributions
-          path: dist/
       
-      - name: Sign the distributions with Sigstore
+      - name: Sign | Sign the distributions with Sigstore
         uses: sigstore/gh-action-sigstore-python@v3.0.0
+        if: steps.release.outputs.released == 'true'
         with:
           inputs: >-
             ./dist/*.tar.gz
-            ./dist/*.whl
-      
-      - name: Upload artifacts to GitHub Release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TAG: ${{ needs.semantic-release.outputs.release_tag }}
-        run: >-
-          gh release upload
-          "$TAG" dist/**
-          --repo "$GITHUB_REPOSITORY"
-          --clobber
-      
-      - name: Clean up artifacts
-        if: always()
-        uses: geekyeggo/delete-artifact@v2
-        with:
-          name: python-package-distributions
-          failOnError: false 
+            ./dist/*.whl 
