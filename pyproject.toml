@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "resume-md"
-version = "1.0.11"
+version = "1.0.13"
 description = "Generate HTML resume from markdown"
 readme = "README.md"
 requires-python = ">=3.9"
