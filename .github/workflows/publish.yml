@@ -36,6 +36,12 @@ jobs:
         run: |
           git reset --hard ${{ github.sha }}
       
+      # Display the initial version
+      - name: Debug | Check initial version
+        run: |
+          echo "Current version in pyproject.toml:"
+          grep -m 1 'version =' pyproject.toml
+      
       - name: Evaluate | Verify upstream has NOT changed
         # Last chance to abort before causing an error as another PR/push was applied to
         # the upstream branch while this workflow was running. This is important
@@ -80,12 +86,15 @@ jobs:
           git_committer_name: "github-actions"
           git_committer_email: "actions@users.noreply.github.com"
       
-      # Debug the dist directory
-      - name: Debug | List dist directory
+      # Verify the version has been updated
+      - name: Debug | Check updated version
         if: steps.release.outputs.released == 'true'
         run: |
-          echo "Contents of dist directory:"
-          ls -la dist/ || echo "dist directory does not exist"
+          echo "Updated version in pyproject.toml:"
+          grep -m 1 'version =' pyproject.toml
+          echo "Released version from semantic-release:"
+          echo "Version: ${{ steps.release.outputs.version }}"
+          echo "Tag: ${{ steps.release.outputs.tag }}"
 
       - name: Publish | Upload to GitHub Release Assets
         uses: python-semantic-release/publish-action@v9.21.1
@@ -100,13 +109,6 @@ jobs:
         with:
           verbose: true
           print-hash: true
-      
-      # Debug the dist directory again
-      - name: Debug | List dist directory before signing
-        if: steps.release.outputs.released == 'true'
-        run: |
-          echo "Contents of dist directory before signing:"
-          ls -la dist/ || echo "dist directory does not exist"
       
       - name: Sign | Sign the distributions with Sigstore
         uses: sigstore/gh-action-sigstore-python@v3.0.0

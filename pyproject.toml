@@ -85,6 +85,7 @@ dev = [
 ]
 
 [tool.semantic_release]
+version_source = "tag"
 version_variable = [
     "pyproject.toml:version"
 ]
@@ -98,6 +99,7 @@ repository = "SamCullin/resume-md"
 major_on_zero = false
 tag_format = "v{version}"
 changelog_file = "CHANGELOG.md"
+commit_version_number = true
 changelog_sections = [
     "feature", "fix", "breaking", "documentation", "performance", "refactor"
 ]
