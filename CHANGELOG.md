@@ -1,6 +1,17 @@
 # CHANGELOG
 
 
+## v1.0.12 (2025-05-13)
+
+### Bug Fixes
+
+- Update publish rules to hopefully update pyproject.yml
+  ([`a7a95e3`](https://github.com/SamCullin/resume-md/commit/a7a95e3c85f617f27cb921f2cb85401344d8d405))
+
+- Update uv.lock
+  ([`cd0488b`](https://github.com/SamCullin/resume-md/commit/cd0488b2a38f68407453d10ee0215e4c65bc31ed))
+
+
 ## v1.0.11 (2025-05-13)
 
 ### Bug Fixes
