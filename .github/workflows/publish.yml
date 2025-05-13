@@ -90,4 +90,5 @@ jobs:
 
       - name: Publish | Upload package to PyPI
         uses: pypa/gh-action-pypi-publish@v1.12.4
+        environment: pypi
         if: steps.release.outputs.released == 'true'
