@@ -76,9 +76,6 @@ jobs:
         id: release
         # Adjust tag with desired version if applicable.
         uses: python-semantic-release/python-semantic-release@v9.21.1
-        permissions:
-          contents: write
-          id-token: write
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           git_committer_name: "github-actions"
@@ -87,9 +84,6 @@ jobs:
       - name: Publish | Upload to GitHub Release Assets
         uses: python-semantic-release/publish-action@v9.21.1
         if: steps.release.outputs.released == 'true'
-        permissions:
-          contents: write
-          id-token: write
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ steps.release.outputs.tag }}
@@ -97,6 +91,3 @@ jobs:
       - name: Publish | Upload package to PyPI
         uses: pypa/gh-action-pypi-publish@v1.12.4
         if: steps.release.outputs.released == 'true'
-        permissions:
-          contents: read
-          id-token: write
