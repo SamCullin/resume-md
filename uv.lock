@@ -974,7 +974,7 @@ wheels = [
 
 [[package]]
 name = "resume-md"
-version = "1.0.13"
+version = "1.0.14"
 source = { editable = "." }
 
 [package.optional-dependencies]
