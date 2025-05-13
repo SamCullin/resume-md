@@ -1,6 +1,17 @@
 # CHANGELOG
 
 
+## v1.0.15 (2025-05-13)
+
+### Bug Fixes
+
+- Fixed example image
+  ([`46e32d8`](https://github.com/SamCullin/resume-md/commit/46e32d8bb2004d99a42644734919b0b5c88666a0))
+
+- Fixed example image
+  ([`425646a`](https://github.com/SamCullin/resume-md/commit/425646a1a324f8f164736c3c87ae5f6cac6de18b))
+
+
 ## v1.0.14 (2025-05-13)
 
 ### Bug Fixes
