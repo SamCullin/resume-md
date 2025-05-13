@@ -79,6 +79,13 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           git_committer_name: "github-actions"
           git_committer_email: "actions@users.noreply.github.com"
+      
+      # Debug the dist directory
+      - name: Debug | List dist directory
+        if: steps.release.outputs.released == 'true'
+        run: |
+          echo "Contents of dist directory:"
+          ls -la dist/ || echo "dist directory does not exist"
 
       - name: Publish | Upload to GitHub Release Assets
         uses: python-semantic-release/publish-action@v9.21.1
@@ -94,10 +101,18 @@ jobs:
           verbose: true
           print-hash: true
       
+      # Debug the dist directory again
+      - name: Debug | List dist directory before signing
+        if: steps.release.outputs.released == 'true'
+        run: |
+          echo "Contents of dist directory before signing:"
+          ls -la dist/ || echo "dist directory does not exist"
+      
       - name: Sign | Sign the distributions with Sigstore
         uses: sigstore/gh-action-sigstore-python@v3.0.0
         if: steps.release.outputs.released == 'true'
         with:
           inputs: >-
             ./dist/*.tar.gz
-            ./dist/*.whl 
+            ./dist/*.whl
+          verbose: true 
