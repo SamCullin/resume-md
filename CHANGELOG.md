@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v1.0.11 (2025-05-13)
+
+### Bug Fixes
+
+- Debug jobs for sign job
+  ([`06bd6dc`](https://github.com/SamCullin/resume-md/commit/06bd6dcc29bdcbdc2758652f02633c47ec0f9fd0))
+
+
 ## v1.0.10 (2025-05-13)
 
 ### Bug Fixes
