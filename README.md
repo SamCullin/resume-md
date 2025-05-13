@@ -16,7 +16,7 @@
 
 A simple, lightweight tool to convert markdown-formatted resumes into beautiful, print-ready HTML documents styled with Tailwind CSS.
 
-![Resume-MD Example](example/image.png)
+![Resume-MD Example](https://raw.githubusercontent.com/SamCullin/resume-md/main/example/image.png)
 
 
 ## Features
