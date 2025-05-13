@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "resume-md"
-version = "1.0.3"
+version = "1.0.11"
 description = "Generate HTML resume from markdown"
 readme = "README.md"
 requires-python = ">=3.9"
@@ -100,6 +100,8 @@ major_on_zero = false
 tag_format = "v{version}"
 changelog_file = "CHANGELOG.md"
 commit_version_number = true
+version_toml = ["pyproject.toml:project.version"]
+version_pattern = "version = \"$version\""
 changelog_sections = [
     "feature", "fix", "breaking", "documentation", "performance", "refactor"
 ]
