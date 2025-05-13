@@ -1,6 +1,20 @@
 # CHANGELOG
 
 
+## v1.0.14 (2025-05-13)
+
+### Bug Fixes
+
+- Testing
+  ([`c92f9a5`](https://github.com/SamCullin/resume-md/commit/c92f9a571b53b20df79ec28f983bdb78cfc3271c))
+
+- Testing
+  ([`79533d9`](https://github.com/SamCullin/resume-md/commit/79533d9ce8f1a3f7189cb93d48248b667b215090))
+
+- Testing
+  ([`db9fb01`](https://github.com/SamCullin/resume-md/commit/db9fb018b0415707290df19b162542182213bf91))
+
+
 ## v1.0.13 (2025-05-13)
 
 ### Bug Fixes
