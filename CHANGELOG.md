@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v1.1.0 (2025-05-14)
+
+### Features
+
+- Added page-break feature
+  ([`7907243`](https://github.com/SamCullin/resume-md/commit/7907243ce0f95c7aacf7ed1f67f98c048c64c313))
+
+
 ## v1.0.16 (2025-05-14)
 
 ### Bug Fixes
