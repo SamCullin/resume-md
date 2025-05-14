@@ -99,9 +99,7 @@ class Renderer:
             HTML string for contact info
         """
         # Format contact info in a left-aligned block on mobile, right-aligned on larger screens
-        contact_html = (
-            '<div class="contact-info text-left sm:text-right">'
-        )
+        contact_html = '<div class="contact-info text-left sm:text-right">'
 
         # Process all contact items (Email, Mobile, LinkedIn, etc.)
         # Find all markdown links in the format [text](link)
