@@ -79,6 +79,7 @@ dev = [
     "build>=1.2.2.post1",
     "flake8>=7.2.0",
     "isort>=6.0.1",
+    "pre-commit>=3.6.0",
     "pytest>=8.3.5",
     "python-semantic-release>=9.21.1",
     "sigstore>=0.8.3",
