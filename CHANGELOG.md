@@ -1,6 +1,20 @@
 # CHANGELOG
 
 
+## v1.0.16 (2025-05-14)
+
+### Bug Fixes
+
+- Added missing paths to pre commit hooks
+  ([`d923cdc`](https://github.com/SamCullin/resume-md/commit/d923cdc66613cd5aada24837a6f363f036d07da6))
+
+- Added pre commit hooks
+  ([`07755cd`](https://github.com/SamCullin/resume-md/commit/07755cd79b083cd97282a9f444776654d1975e7e))
+
+- Rebase pyproject.toml
+  ([`32d7979`](https://github.com/SamCullin/resume-md/commit/32d7979353b3860fb33b5399d5c79bdc48338d7c))
+
+
 ## v1.0.15 (2025-05-13)
 
 ### Bug Fixes
