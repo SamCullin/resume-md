@@ -65,16 +65,16 @@ class Renderer:
         Returns:
             HTML string for the banner
         """
-        inner_html = f'<div class="flex flex-row items-center justify-between w-full">'
+        inner_html = f'<div class="flex flex-col sm:flex-row items-start sm:items-center w-full">'
 
         # Left side - Name/title
-        inner_html += f'<div class="flex-shrink-0">'
+        inner_html += f'<div class="flex-shrink-0 text-left">'
         inner_html += f'<h1 class="text-2xl font-bold">{self.format_inline_markdown(component.name)}</h1>'
         inner_html += f"</div>"
 
         # Right side - Contact info
         if component.contact_info:
-            inner_html += f'<div class="flex-shrink-0 ml-auto">'
+            inner_html += f'<div class="flex-shrink-0 mt-2 sm:mt-0 sm:ml-auto">'
             contact_html = self._build_contact_info(component.contact_info)
             inner_html += contact_html
             inner_html += f"</div>"
@@ -98,9 +98,9 @@ class Renderer:
         Returns:
             HTML string for contact info
         """
-        # Format contact info in a right-aligned block with items on separate lines
+        # Format contact info in a left-aligned block on mobile, right-aligned on larger screens
         contact_html = (
-            '<div class="mx-auto text-right contact-info" style="text-align: right;">'
+            '<div class="contact-info text-left sm:text-right">'
         )
 
         # Process all contact items (Email, Mobile, LinkedIn, etc.)
@@ -110,7 +110,7 @@ class Renderer:
             item_text = item_text.strip()
             link_text = link_text.strip()
             link_url = link_url.strip()
-            contact_html += f'<div class="contact-item text-right" style="text-align: right;"><strong class="font-bold">{item_text}:</strong> <a href="{link_url}" class="hover:underline">{link_text}</a></div>'
+            contact_html += f'<div class="contact-item"><strong class="font-bold">{item_text}:</strong> <a href="{link_url}" class="hover:underline">{link_text}</a></div>'
 
         contact_html += "</div>"
 
