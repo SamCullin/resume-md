@@ -105,7 +105,21 @@ The resume-md tool supports a specific markdown format designed for resumes. For
 
 - [Example 1](example/example1.md) - Basic resume format with tables
 - [Example 2](example/example2.md) - Alternative resume format with lists
+- [Page Break Example](example/page_break_test.md) - Example showing page break usage
 
+### Page Breaks
+
+You can force a page break in your resume using the special markdown comment syntax:
+
+```markdown
+This is content on the first page.
+
+[page-break]: # 
+
+This content will appear on a new page.
+```
+
+When the document is printed, a page break will be inserted at this location.
 
 ## Development
 

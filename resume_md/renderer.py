@@ -4,6 +4,7 @@ from typing import Dict, List, cast
 from .components import (
     HeadingComponent,
     ListComponent,
+    PageBreakComponent,
     ParagraphComponent,
     ResumeBanner,
     ResumeComponent,
@@ -221,6 +222,18 @@ class Renderer:
 
         return f'<table class="w-full border-collapse my-2 mb-4">{thead}{tbody}</table>'
 
+    def render_page_break(self, component: PageBreakComponent) -> str:
+        """
+        Render a page break component to HTML
+
+        Args:
+            component: The page break component to render
+
+        Returns:
+            HTML string for the page break
+        """
+        return '<div class="break-after-page"></div>'
+
     def render_component(self, component: ResumeComponent) -> str:
         """
         Render any resume component to HTML based on its type
@@ -243,6 +256,8 @@ class Renderer:
             return self.render_list(cast(ListComponent, component))
         elif component_type == "table":
             return self.render_table(cast(TableComponent, component))
+        elif component_type == "page-break":
+            return self.render_page_break(cast(PageBreakComponent, component))
         else:
             raise ValueError(f"Unknown component type: {component_type}")
 

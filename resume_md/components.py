@@ -64,3 +64,11 @@ class TableComponent(ResumeComponent):
 
     def get_component_type(self) -> str:
         return "table"
+
+
+@dataclass
+class PageBreakComponent(ResumeComponent):
+    """Component for forcing a page break in the document"""
+
+    def get_component_type(self) -> str:
+        return "page-break"

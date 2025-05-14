@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Break Test</title>
+    <!-- Include Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Custom Tailwind configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1a5276', /* Professional deep blue */
+                        secondary: '#2980b9', /* Lighter blue for accents */
+                        neutral: '#f8f9fa',
+                        dark: '#2c3e50',
+                    },
+                    fontFamily: {
+                        sans: ['Roboto', 'Arial', 'sans-serif'],
+                    },
+                }
+            },
+            plugins: [
+                function({ addBase, theme }) {
+                    addBase({
+                        '@media print': {
+                            'body': {
+                                fontSize: '0.95em',
+                            },
+                            '.text-xs': {
+                                fontSize: 'calc(0.75rem - 0.05rem)',
+                            },
+                            '.text-sm': {
+                                fontSize: 'calc(0.875rem - 0.05rem)',
+                            },
+                            '.text-base': {
+                                fontSize: 'calc(1rem - 0.05rem)',
+                            },
+                            '.text-lg': {
+                                fontSize: 'calc(1.125rem - 0.05rem)',
+                            },
+                            '.text-xl': {
+                                fontSize: 'calc(1.25rem - 0.05rem)',
+                            },
+                            '.text-2xl': {
+                                fontSize: 'calc(1.5rem - 0.05rem)',
+                            },
+                            '.text-3xl': {
+                                fontSize: 'calc(1.875rem - 0.05rem)',
+                            },
+                            '.text-4xl': {
+                                fontSize: 'calc(2.25rem - 0.05rem)',
+                            },
+                        }
+                    });
+                }
+            ],
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* Add custom styles that can't be achieved with Tailwind */
+        @page {
+            size: A4;
+        }
+        
+        /* Ensure backgrounds print */
+        @media print {
+            /* Apply to all elements with backgrounds that need to print */
+            .bg-primary, .bg-secondary, .bg-opacity-10, [class*="bg-"] {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                color-adjust: exact !important;
+            }
+            body {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+                color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+<body class="font-sans text-gray-800 bg-white print:m-0 print:p-0">
+    <!-- Main container with max width -->
+    <div class="max-w-[800px] mx-auto mt-8 mb-6 bg-white shadow-lg print:shadow-none print:m-0 print:p-0 print:relative">
+        <!-- Resume banner section with resume-banner class -->
+        <div class="resume-banner w-full">
+            
+        <div class="w-full bg-primary text-white print:px-[1cm] px-8 py-2">
+            <div class="flex flex-col sm:flex-row items-start sm:items-center w-full"><div class="flex-shrink-0 text-left"><h1 class="text-2xl font-bold">Resume with Page Breaks</h1></div><div class="flex-shrink-0 mt-2 sm:mt-0 sm:ml-auto"><div class="contact-info text-left sm:text-right"></div></div></div>
+        </div>  
+        
+        </div>
+        
+        <!-- Main content area -->
+        <main class="px-8 py-4 print:pt-4 print:px-[1cm]">
+            <h2 class="text-xl font-bold text-primary mb-2 pb-1 pt-2 border-b border-gray-300">First Section</h2>
+<p class="my-2">This is the content of the first section. It will appear on the first page.</p>
+<ul class="list-disc pl-5 my-2 space-y-1 mb-4"><li class="mb-1.5">Point 1</li><li class="mb-1.5">Point 2</li><li class="mb-1.5">Point 3</li></ul>
+<div class="break-after-page"></div>
+<h2 class="text-xl font-bold text-primary mb-2 pb-1 pt-2 border-b border-gray-300">Second Section</h2>
+<p class="my-2">This content will appear on a new page because of the page break comment above.</p>
+<ul class="list-disc pl-5 my-2 space-y-1 mb-4"><li class="mb-1.5">Another point 1</li><li class="mb-1.5">Another point 2</li></ul>
+<div class="break-after-page"></div>
+<h2 class="text-xl font-bold text-primary mb-2 pb-1 pt-2 border-b border-gray-300">Third Section</h2>
+<p class="my-2">This is the third section which will appear on yet another page.</p>
+<p class="my-2">Here's a sample table:</p>
+<table class="w-full border-collapse my-2 mb-4"><thead><tr><th class="bg-primary bg-opacity-10 text-primary font-semibold text-left p-1 print:bg-primary print:bg-opacity-10">Column 1</th><th class="bg-primary bg-opacity-10 text-primary font-semibold text-center p-1 print:bg-primary print:bg-opacity-10">Column 2</th><th class="bg-primary bg-opacity-10 text-primary font-semibold text-right p-1 print:bg-primary print:bg-opacity-10">Column 3</th></tr></thead><tbody><tr><td class="border border-gray-200 p-1 text-left">Left</td><td class="border border-gray-200 p-1 text-center">Center</td><td class="border border-gray-200 p-1 text-right">Right</td></tr><tr><td class="border border-gray-200 p-1 text-left">Data</td><td class="border border-gray-200 p-1 text-center">Data</td><td class="border border-gray-200 p-1 text-right">Data</td></tr></tbody></table>
+        </main>
+        
+        <!-- Footer with subtle branding -->
+        <footer class="bg-neutral px-8 py-3 border-t border-gray-200 text-center text-gray-500 text-sm print:hidden">
+            <p>Created with Markdown Resume Generator &mdash; <a href="https://github.com/SamCullin/resume-md" class="text-primary hover:underline" target="_blank" rel="noopener">View on GitHub</a></p>
+        </footer>
+    </div>
+    
+    <!-- Print button -->
+    <div class="fixed bottom-4 right-4 print:hidden">
+        <button onclick="window.print()" class="bg-secondary hover:bg-primary text-white px-4 py-2 rounded shadow transition-colors duration-300">
+            Print Resume
+        </button>
+    </div>
+</body>
+</html> 

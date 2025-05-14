@@ -3,6 +3,7 @@ from typing import Any, Dict, List
 from .components import (
     HeadingComponent,
     ListComponent,
+    PageBreakComponent,
     ParagraphComponent,
     ResumeBanner,
     ResumeComponent,
@@ -47,5 +48,7 @@ def tokens_to_components(tokens: List[Dict[str, Any]]) -> List[ResumeComponent]:
             components.append(
                 TableComponent(token["headers"], token["alignments"], token["rows"])
             )
+        elif token["type"] == "page-break":
+            components.append(PageBreakComponent())
 
     return components

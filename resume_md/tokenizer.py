@@ -28,7 +28,10 @@ class MarkdownTokenizer:
                 continue
 
             # Process different markdown elements
-            if self._is_header(line):
+            if self._is_page_break_comment(line):
+                self._process_page_break()
+                i += 1
+            elif self._is_header(line):
                 i = self._process_header(lines, i)
             elif self._is_table(lines, i):
                 i = self._process_table(lines, i)
@@ -38,6 +41,14 @@ class MarkdownTokenizer:
                 i = self._process_paragraph(lines, i)
 
         return self.tokens
+
+    def _is_page_break_comment(self, line: str) -> bool:
+        """Check if the line is a page-break comment."""
+        return bool(re.match(r"^\[page-break\]:\s*#\s*$", line))
+
+    def _process_page_break(self) -> None:
+        """Process a page-break comment and add it to tokens."""
+        self.tokens.append({"type": "page-break"})
 
     def _is_header(self, line: str) -> bool:
         """Check if the line is a header."""
