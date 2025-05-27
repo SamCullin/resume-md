@@ -269,8 +269,9 @@ class Renderer:
             row_html.append("</tr>")
             tbody_html.append("\n".join(row_html))
         tbody_html.append("</tbody>")
-
-        return f'<table class="w-full border-collapse my-2">{"\n".join(thead_html)}{"\n".join(tbody_html)}</table>'
+        joined_head = "\n".join(thead_html)
+        joined_body = "\n".join(tbody_html)
+        return f'<table class="w-full border-collapse my-2">{joined_head}{joined_body}</table>'
 
     def _strip_html(self, text: str) -> str:
         """Helper method to strip HTML tags from text"""
