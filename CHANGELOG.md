@@ -1,6 +1,31 @@
 # CHANGELOG
 
 
+## v1.2.0 (2025-05-27)
+
+### Bug Fixes
+
+- E999 SyntaxError: f-string expression part cannot include a backslash
+  ([`8b41196`](https://github.com/SamCullin/resume-md/commit/8b41196a4502b826cc27206642d37938b3521d56))
+
+- E999 SyntaxError: f-string expression part cannot include a backslash in all locations
+  ([`a352e56`](https://github.com/SamCullin/resume-md/commit/a352e56ff74840f29825c6dbddec5aa53bad8e79))
+
+- Removed override decorator for >3.12 support
+  ([`a6d844d`](https://github.com/SamCullin/resume-md/commit/a6d844d616a0bf0457616b726285594de19e28e2))
+
+- Reverted Optional removal for 3.9 support
+  ([`b8a4ffe`](https://github.com/SamCullin/resume-md/commit/b8a4ffed634b310286b0f3da92cec178d92e064b))
+
+- Updated pipeline to install all-extras for ci workflow
+  ([`e2ceea3`](https://github.com/SamCullin/resume-md/commit/e2ceea319fd5079af87e906832b9b14fa4d959c5))
+
+### Features
+
+- Added ATS optimization
+  ([`81a8b40`](https://github.com/SamCullin/resume-md/commit/81a8b4096aa4d807fa3a19538b94331bb37a0c7d))
+
+
 ## v1.1.0 (2025-05-14)
 
 ### Features
