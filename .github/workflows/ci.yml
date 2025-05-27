@@ -34,7 +34,7 @@ jobs:
     
     - name: Install dependencies
       run: |
-        uv sync --locked --only-dev
+        uv sync --locked --all-extras
     
     - name: Lint with flake8
       run: |
