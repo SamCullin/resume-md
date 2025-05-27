@@ -219,7 +219,8 @@ class Renderer:
             )
 
         # Add semantic role and proper accessibility attributes
-        return f'<{tag} class="{list_class} mb-2" role="list">{"\n".join(items_html)}</{tag}>'
+        joined_items = "\n".join(items_html)
+        return f'<{tag} class="{list_class} mb-2" role="list">{joined_items}</{tag}>'
 
     def render_table(self, component: TableComponent) -> str:
         """
