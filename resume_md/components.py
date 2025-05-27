@@ -1,6 +1,5 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import override
 
 
 class ResumeComponent(ABC):
@@ -18,7 +17,6 @@ class ResumeBanner(ResumeComponent):
     name: str
     contact_info: str | None = None
 
-    @override
     def get_component_type(self) -> str:
         return "banner"
 
@@ -30,7 +28,6 @@ class HeadingComponent(ResumeComponent):
     level: int
     content: str
 
-    @override
     def get_component_type(self) -> str:
         return "heading"
 
@@ -41,7 +38,6 @@ class ParagraphComponent(ResumeComponent):
 
     content: str
 
-    @override
     def get_component_type(self) -> str:
         return "paragraph"
 
@@ -53,7 +49,6 @@ class ListComponent(ResumeComponent):
     list_type: str  # 'ordered' or 'unordered'
     items: list[str]
 
-    @override
     def get_component_type(self) -> str:
         return "list"
 
@@ -66,7 +61,6 @@ class TableComponent(ResumeComponent):
     alignments: list[str]
     rows: list[list[str]]
 
-    @override
     def get_component_type(self) -> str:
         return "table"
 
@@ -75,7 +69,6 @@ class TableComponent(ResumeComponent):
 class PageBreakComponent(ResumeComponent):
     """Component for forcing a page break in the document"""
 
-    @override
     def get_component_type(self) -> str:
         return "page-break"
 
@@ -87,6 +80,5 @@ class ATSInfoComponent(ResumeComponent):
     info_type: str  # e.g., "Skills", "Tools", etc.
     content: str  # The actual content/list
 
-    @override
     def get_component_type(self) -> str:
         return "ats-info"
