@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
+from typing import Optional
 
 
 class ResumeComponent(ABC):
@@ -15,7 +16,7 @@ class ResumeBanner(ResumeComponent):
     """Header component for resume with name and contact information"""
 
     name: str
-    contact_info: str | None = None
+    contact_info: Optional[str] = None
 
     def get_component_type(self) -> str:
         return "banner"
