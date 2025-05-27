@@ -70,5 +70,6 @@ Thumbs.db
 backup/
 output/
 logs/
+wip/
 *.log
 .envrc

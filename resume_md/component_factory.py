@@ -1,6 +1,7 @@
-from typing import Any, Dict, List
+from typing import Any
 
-from .components import (
+from resume_md.components import (
+    ATSInfoComponent,
     HeadingComponent,
     ListComponent,
     PageBreakComponent,
@@ -11,7 +12,7 @@ from .components import (
 )
 
 
-def tokens_to_components(tokens: List[Dict[str, Any]]) -> List[ResumeComponent]:
+def tokens_to_components(tokens: list[dict[str, Any]]) -> list[ResumeComponent]:
     """
     Convert tokens from the tokenizer to resume components
 
@@ -21,7 +22,7 @@ def tokens_to_components(tokens: List[Dict[str, Any]]) -> List[ResumeComponent]:
     Returns:
         List of resume components
     """
-    components: List[ResumeComponent] = []
+    components: list[ResumeComponent] = []
 
     # Process the first heading specially for the header
     if tokens and tokens[0]["type"] == "heading" and tokens[0]["level"] == 1:
@@ -50,5 +51,7 @@ def tokens_to_components(tokens: List[Dict[str, Any]]) -> List[ResumeComponent]:
             )
         elif token["type"] == "page-break":
             components.append(PageBreakComponent())
+        elif token["type"] == "ats-info":
+            components.append(ATSInfoComponent(token["info_type"], token["content"]))
 
     return components

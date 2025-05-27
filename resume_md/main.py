@@ -9,9 +9,9 @@ import traceback
 from importlib import resources
 from string import Template
 
-from .component_factory import tokens_to_components
-from .renderer import Renderer
-from .tokenizer import MarkdownTokenizer, read_markdown_file
+from resume_md.component_factory import tokens_to_components
+from resume_md.renderer import Renderer
+from resume_md.tokenizer import MarkdownTokenizer, read_markdown_file
 
 
 def load_template(template_path: str | None = None) -> Template:

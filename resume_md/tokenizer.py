@@ -31,6 +31,9 @@ class MarkdownTokenizer:
             if self._is_page_break_comment(line):
                 self._process_page_break()
                 i += 1
+            elif self._is_ats_info_comment(line):
+                self._process_ats_info(line)
+                i += 1
             elif self._is_header(line):
                 i = self._process_header(lines, i)
             elif self._is_table(lines, i):
@@ -49,6 +52,20 @@ class MarkdownTokenizer:
     def _process_page_break(self) -> None:
         """Process a page-break comment and add it to tokens."""
         self.tokens.append({"type": "page-break"})
+
+    def _is_ats_info_comment(self, line: str) -> bool:
+        """Check if the line is an ATS-info comment."""
+        return bool(re.match(r"^\[ats-info\]:\s*#\s+(.*?):\s*(.*?)$", line))
+
+    def _process_ats_info(self, line: str) -> None:
+        """Process an ATS-info comment and add it to tokens."""
+        ats_match = re.match(r"^\[ats-info\]:\s*#\s+(.*?):\s*(.*?)$", line)
+        if ats_match:
+            info_type = ats_match.group(1).strip()
+            content = ats_match.group(2).strip()
+            self.tokens.append(
+                {"type": "ats-info", "info_type": info_type, "content": content}
+            )
 
     def _is_header(self, line: str) -> bool:
         """Check if the line is a header."""

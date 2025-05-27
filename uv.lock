@@ -1088,16 +1088,10 @@ wheels = [
 
 [[package]]
 name = "resume-md"
-version = "1.0.16"
+version = "1.1.0"
 source = { editable = "." }
 
 [package.optional-dependencies]
-test = [
-    { name = "pytest" },
-    { name = "pytest-cov" },
-]
-
-[package.dev-dependencies]
 dev = [
     { name = "autoflake" },
     { name = "black" },
@@ -1109,27 +1103,27 @@ dev = [
     { name = "python-semantic-release" },
     { name = "sigstore" },
 ]
+test = [
+    { name = "pytest" },
+    { name = "pytest-cov" },
+]
 
 [package.metadata]
 requires-dist = [
+    { name = "autoflake", marker = "extra == 'dev'", specifier = ">=2.3.1" },
+    { name = "black", marker = "extra == 'dev'", specifier = ">=25.1.0" },
+    { name = "build", marker = "extra == 'dev'", specifier = ">=1.2.2.post1" },
+    { name = "flake8", marker = "extra == 'dev'", specifier = ">=7.2.0" },
     { name = "importlib-resources", marker = "python_full_version < '3.9'", specifier = ">=1.4.0" },
+    { name = "isort", marker = "extra == 'dev'", specifier = ">=6.0.1" },
+    { name = "pre-commit", marker = "extra == 'dev'", specifier = ">=3.6.0" },
+    { name = "pytest", marker = "extra == 'dev'", specifier = ">=8.3.5" },
     { name = "pytest", marker = "extra == 'test'", specifier = ">=7.0.0" },
     { name = "pytest-cov", marker = "extra == 'test'", specifier = ">=4.0.0" },
+    { name = "python-semantic-release", marker = "extra == 'dev'", specifier = ">=9.21.1" },
+    { name = "sigstore", marker = "extra == 'dev'", specifier = ">=0.8.3" },
 ]
 provides-extras = ["dev", "test"]
-
-[package.metadata.requires-dev]
-dev = [
-    { name = "autoflake", specifier = ">=2.3.1" },
-    { name = "black", specifier = ">=25.1.0" },
-    { name = "build", specifier = ">=1.2.2.post1" },
-    { name = "flake8", specifier = ">=7.2.0" },
-    { name = "isort", specifier = ">=6.0.1" },
-    { name = "pre-commit", specifier = ">=3.6.0" },
-    { name = "pytest", specifier = ">=8.3.5" },
-    { name = "python-semantic-release", specifier = ">=9.21.1" },
-    { name = "sigstore", specifier = ">=0.8.3" },
-]
 
 [[package]]
 name = "rich"

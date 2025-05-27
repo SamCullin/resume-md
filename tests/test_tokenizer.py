@@ -74,3 +74,26 @@ def test_page_break_tokenization():
     assert tokens[1]["type"] == "page-break"
     assert tokens[2]["type"] == "paragraph"
     assert tokens[2]["content"] == "This is content after the page break."
+
+
+def test_ats_info_tokenization():
+    """Test that ATS-info comments are properly tokenized"""
+    # Arrange
+    markdown = "This is some content.\n\n[ats-info]: # Skills: Python, JavaScript, TypeScript\n[ats-info]: # Tools: Git, Docker, AWS\n\nThis is content after the ATS info."
+    tokenizer = MarkdownTokenizer(markdown)
+
+    # Act
+    tokens = tokenizer.tokenize()
+
+    # Assert
+    assert len(tokens) == 4
+    assert tokens[0]["type"] == "paragraph"
+    assert tokens[0]["content"] == "This is some content."
+    assert tokens[1]["type"] == "ats-info"
+    assert tokens[1]["info_type"] == "Skills"
+    assert tokens[1]["content"] == "Python, JavaScript, TypeScript"
+    assert tokens[2]["type"] == "ats-info"
+    assert tokens[2]["info_type"] == "Tools"
+    assert tokens[2]["content"] == "Git, Docker, AWS"
+    assert tokens[3]["type"] == "paragraph"
+    assert tokens[3]["content"] == "This is content after the ATS info."

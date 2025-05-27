@@ -1,7 +1,8 @@
 import re
-from typing import Dict, List, cast
+from typing import cast
 
-from .components import (
+from resume_md.components import (
+    ATSInfoComponent,
     HeadingComponent,
     ListComponent,
     PageBreakComponent,
@@ -19,6 +20,12 @@ class Renderer:
 
     def __init__(self):
         pass
+
+    def _clean_for_html(self, text: str) -> str:
+        """
+        Clean text for HTML rendering
+        """
+        return text.replace("&", "and").replace(" ", "-")
 
     def format_inline_markdown(self, text: str) -> str:
         """
@@ -49,16 +56,18 @@ class Renderer:
             text,
         )
 
-        # Links
+        # Links - Add proper link attributes for ATS parsing
         text = re.sub(
-            r"\[(.*?)\]\((.*?)\)", r'<a href="\2" class="hover:underline">\1</a>', text
+            r"\[(.*?)\]\((.*?)\)",
+            r'<a href="\2" class="hover:underline" rel="noopener" title="\1">\1</a>',
+            text,
         )
 
         return text
 
     def render_banner(self, component: ResumeBanner) -> str:
         """
-        Render a resume banner component to HTML
+        Render a resume banner component to HTML using semantic header element
 
         Args:
             component: The banner component to render
@@ -66,58 +75,79 @@ class Renderer:
         Returns:
             HTML string for the banner
         """
-        inner_html = f'<div class="flex flex-col sm:flex-row items-start sm:items-center w-full">'
+        # Use semantic header element instead of div
+        inner_html = f'<section class="flex flex-col sm:flex-row items-start sm:items-center w-full">'
 
-        # Left side - Name/title
+        # Name section with proper heading
         inner_html += f'<div class="flex-shrink-0 text-left">'
-        inner_html += f'<h1 class="text-2xl font-bold">{self.format_inline_markdown(component.name)}</h1>'
+        inner_html += f'<h1 class="text-2xl font-bold" itemprop="name">{self.format_inline_markdown(component.name)}</h1>'
         inner_html += f"</div>"
 
-        # Right side - Contact info
+        # Contact info using semantic address element
         if component.contact_info:
             inner_html += f'<div class="flex-shrink-0 mt-2 sm:mt-0 sm:ml-auto">'
             contact_html = self._build_contact_info(component.contact_info)
             inner_html += contact_html
             inner_html += f"</div>"
 
-        inner_html += "</div>"
+        inner_html += "</section>"
 
-        # Create consistent header for both web and print
+        # Create semantic header with microdata
         return f"""
-        <div class="w-full bg-primary text-white print:px-[1cm] px-8 py-2">
+        <header class="w-full bg-primary text-white print:px-[1cm] px-8 py-2" itemscope itemtype="https://schema.org/Person">
             {inner_html}
-        </div>  
+        </header>  
         """
 
     def _build_contact_info(self, contact_info: str) -> str:
         """
-        Build HTML for contact information
+        Build semantic HTML for contact information using address element
 
         Args:
             contact_info: Contact information string
 
         Returns:
-            HTML string for contact info
+            HTML string for contact info with proper semantic markup
         """
-        # Format contact info in a left-aligned block on mobile, right-aligned on larger screens
-        contact_html = '<div class="contact-info text-left sm:text-right">'
+        # Use semantic address element for contact info
+        contact_html = [
+            '<address class="contact-info text-left sm:text-right not-italic">'
+        ]
 
-        # Process all contact items (Email, Mobile, LinkedIn, etc.)
-        # Find all markdown links in the format [text](link)
-        link_items = re.findall(r"\s*\**(.*?):\**\s*\[(.*?)\]\((.*?)\)", contact_info)
+        # Process all contact items with proper microdata
+        # First handle linked items
+        link_regex = r"\s*\**(.*?):\**\s*\[(.*?)\]\((.*?)\)"
+        link_items: list[tuple[str, str, str]] = re.findall(link_regex, contact_info)
         for item_text, link_text, link_url in link_items:
             item_text = item_text.strip()
             link_text = link_text.strip()
             link_url = link_url.strip()
-            contact_html += f'<div class="contact-item"><strong class="font-bold">{item_text}:</strong> <a href="{link_url}" class="hover:underline">{link_text}</a></div>'
+            item_type = self._clean_for_html(item_text)
+            contact_html.append(
+                f'<div class="contact-item" data-contact-type="{item_type}"><strong class="font-bold">{item_text}:</strong><span class="contact-separator"> </span><a href="{link_url}" class="hover:underline" rel="noopener">{link_text}</a></div>'
+            )
 
-        contact_html += "</div>"
+        # Then handle plain text items
+        plain_items: list[tuple[str, str]] = re.findall(
+            r"\s*\**(.*?):\**\s*([^\[]+?)(?=\s*\*\*|$)", contact_info
+        )
+        for item_text, content in plain_items:
+            # Skip if this item was already handled as a link
+            if re.match(link_regex, f"**{item_text}:** {content}"):
+                continue
+            item_text = item_text.strip()
+            content = content.strip()
+            item_type = self._clean_for_html(item_text)
+            contact_html.append(
+                f'<div class="contact-item" data-contact-type="{item_type}"><strong class="font-bold">{item_text}:</strong><span class="contact-separator"> </span><span>{content}</span></div>'
+            )
 
-        return contact_html
+        contact_html.append("</address>")
+        return "\n".join(contact_html)
 
     def render_heading(self, component: HeadingComponent) -> str:
         """
-        Render a heading component to HTML
+        Render a heading component to HTML with proper semantic attributes
 
         Args:
             component: The heading component to render
@@ -125,26 +155,29 @@ class Renderer:
         Returns:
             HTML string for the heading
         """
+        # Add semantic attributes for section identification
         if component.level == 1:
             # H1 - Main title/name
-            return f'<h{component.level} class="text-2xl font-bold text-primary mb-3">{self.format_inline_markdown(component.content)}</h{component.level}>'
+            return f'<h{component.level} class="text-2xl font-bold text-primary mb-3" itemprop="name">{self.format_inline_markdown(component.content)}</h{component.level}>'
         elif component.level == 2:
-            return f'<h{component.level} class="text-xl font-bold text-primary mb-2 pb-1 pt-2 border-b border-gray-300">{self.format_inline_markdown(component.content)}</h{component.level}>'
+            # H2 - Main sections (Profile, Experience, Education, etc.)
+            section_id = self._clean_for_html(component.content)
+            return f'<h{component.level} class="text-xl font-bold text-primary mb-2 pb-1 pt-1 border-b border-gray-300" id="{section_id}" role="heading" aria-level="2">{self.format_inline_markdown(component.content)}</h{component.level}>'
         elif component.level == 3:
             # H3 - Company/organization names
-            return f'<h{component.level} class="text-base font-bold text-primary mt-2 mb-1">{self.format_inline_markdown(component.content)}</h{component.level}>'
+            return f'<h{component.level} class="text-base font-bold text-primary mt-1 mb-1" itemprop="worksFor" itemscope itemtype="https://schema.org/Organization"><span itemprop="name">{self.format_inline_markdown(component.content)}</span></h{component.level}>'
         elif component.level == 4:
             # H4 - Job titles
-            return f'<h{component.level} class="text-sm font-semibold text-gray-800 mt-1 mb-1">{self.format_inline_markdown(component.content)}</h{component.level}>'
+            return f'<h{component.level} class="text-sm font-semibold text-gray-800 mt-1 mb-1" itemprop="jobTitle">{self.format_inline_markdown(component.content)}</h{component.level}>'
         elif component.level == 5:
             # H5 - Dates/locations
-            return f'<h{component.level} class="text-xs font-semibold text-gray-800 mt-1 mb-1">{self.format_inline_markdown(component.content)}</h{component.level}>'
+            return f'<h{component.level} class="text-xs font-semibold text-gray-800 mt-1 mb-1"><time>{self.format_inline_markdown(component.content)}</time></h{component.level}>'
         elif component.level == 6:
             # H6 - Smallest heading
             return f'<h{component.level} class="text-xs italic font-medium text-gray-700 mt-1 mb-1">{self.format_inline_markdown(component.content)}</h{component.level}>'
         else:
-            # Fallback for any other level (shouldn't happen with markdown's 6 levels)
-            return f'<h{component.level} class="font-bold mt-4 mb-2">{self.format_inline_markdown(component.content)}</h{component.level}>'
+            # Fallback for any other level
+            return f'<h{component.level} class="font-bold mt-1 mb-1">{self.format_inline_markdown(component.content)}</h{component.level}>'
 
     def render_paragraph(self, component: ParagraphComponent) -> str:
         """
@@ -157,11 +190,11 @@ class Renderer:
             HTML string for the paragraph
         """
         content = component.content
-        return f'<p class="my-2">{self.format_inline_markdown(content)}</p>'
+        return f'<p class="my-1">{self.format_inline_markdown(content)}</p>'
 
     def render_list(self, component: ListComponent) -> str:
         """
-        Render a list component to HTML
+        Render a list component to HTML with proper semantic attributes
 
         Args:
             component: The list component to render
@@ -170,18 +203,23 @@ class Renderer:
             HTML string for the list
         """
         tag = "ul" if component.list_type == "unordered" else "ol"
+        # Use custom class without default bullets since we're adding our own
         list_class = (
-            "list-disc pl-5 my-2 space-y-1"
+            "pl-5 my-2 space-y-1 custom-bullet-list"
             if component.list_type == "unordered"
-            else "list-decimal pl-5 my-2 space-y-1"
+            else "pl-5 my-2 space-y-1 custom-number-list"
         )
 
-        items_html = ""
+        items_html = []
         for item in component.items:
             formatted_item = self.format_inline_markdown(item)
-            items_html += f'<li class="mb-1.5">{formatted_item}</li>'
+            # Add bullet symbol for better text extraction
+            items_html.append(
+                f'<li class="mb-1.5 list-item-with-bullet" role="listitem" data-bullet="• ">{formatted_item}</li>'
+            )
 
-        return f'<{tag} class="{list_class} mb-4">{items_html}</{tag}>'
+        # Add semantic role and proper accessibility attributes
+        return f'<{tag} class="{list_class} mb-2" role="list">{"\n".join(items_html)}</{tag}>'
 
     def render_table(self, component: TableComponent) -> str:
         """
@@ -193,7 +231,8 @@ class Renderer:
         Returns:
             HTML string for the table
         """
-        thead = "<thead><tr>"
+        thead_html: list[str] = []
+        thead_html.append("<thead><tr>")
         for i, header in enumerate(component.headers):
             align_class = "text-left"
             if i < len(component.alignments):
@@ -202,12 +241,16 @@ class Renderer:
                 elif component.alignments[i] == "right":
                     align_class = "text-right"
 
-            thead += f'<th class="bg-primary bg-opacity-10 text-primary font-semibold {align_class} p-1 print:bg-primary print:bg-opacity-10">{self.format_inline_markdown(header)}</th>'
-        thead += "</tr></thead>"
+            thead_html.append(
+                f'<th class="bg-primary bg-opacity-10 text-primary font-semibold {align_class} p-1 print:bg-primary print:bg-opacity-10">{self.format_inline_markdown(header)}</th>'
+            )
+        thead_html.append("</tr></thead>")
 
-        tbody = "<tbody>"
+        tbody_html: list[str] = []
+        tbody_html.append("<tbody>")
         for row in component.rows:
-            tbody += "<tr>"
+            row_html: list[str] = []
+            row_html.append("<tr>")
             for i, cell in enumerate(row):
                 align_class = "text-left"
                 if i < len(component.alignments):
@@ -215,12 +258,25 @@ class Renderer:
                         align_class = "text-center"
                     elif component.alignments[i] == "right":
                         align_class = "text-right"
+                header = component.headers[i]
+                row_html.append(
+                    f"""<td class="border border-gray-200 p-1 {align_class}" data-field="{header.lower()}" data-label="{header}">
+                    <span class="ats-visible">&nbsp;{header}:&nbsp;</span>
+                   {self.format_inline_markdown(cell)}
+                </td>"""
+                )
+            row_html.append("</tr>")
+            tbody_html.append("\n".join(row_html))
+        tbody_html.append("</tbody>")
 
-                tbody += f'<td class="border border-gray-200 p-1 {align_class}">{self.format_inline_markdown(cell)}</td>'
-            tbody += "</tr>"
-        tbody += "</tbody>"
+        return f'<table class="w-full border-collapse my-2">{"\n".join(thead_html)}{"\n".join(tbody_html)}</table>'
 
-        return f'<table class="w-full border-collapse my-2 mb-4">{thead}{tbody}</table>'
+    def _strip_html(self, text: str) -> str:
+        """Helper method to strip HTML tags from text"""
+        import re
+
+        clean = re.compile("<.*?>")
+        return re.sub(clean, "", text)
 
     def render_page_break(self, component: PageBreakComponent) -> str:
         """
@@ -232,7 +288,24 @@ class Renderer:
         Returns:
             HTML string for the page break
         """
-        return '<div class="break-after-page"></div>'
+        return (
+            '<div class="break-after-page" role="separator" aria-hidden="true"></div>'
+        )
+
+    def render_ats_info(self, component: ATSInfoComponent) -> str:
+        """
+        Render an ATS-info component to HTML that is hidden from visual display but accessible to text extraction
+
+        Args:
+            component: The ATS-info component to render
+
+        Returns:
+            HTML string for the ATS info that's hidden but extractable
+        """
+        # Create a hidden div that ATS systems can read but users can't see
+        # Using multiple techniques to ensure it's hidden but still accessible to text extraction
+        ats_field = self._clean_for_html(component.info_type.lower())
+        return f"""<div class="p-0 m-0 h-0"><span class="ats-visible" data-ats-field="{ats_field}">{component.info_type}: {component.content}</span></div>"""
 
     def render_component(self, component: ResumeComponent) -> str:
         """
@@ -258,18 +331,20 @@ class Renderer:
             return self.render_table(cast(TableComponent, component))
         elif component_type == "page-break":
             return self.render_page_break(cast(PageBreakComponent, component))
+        elif component_type == "ats-info":
+            return self.render_ats_info(cast(ATSInfoComponent, component))
         else:
             raise ValueError(f"Unknown component type: {component_type}")
 
-    def render_components(self, components: List[ResumeComponent]) -> Dict[str, str]:
+    def render_components(self, components: list[ResumeComponent]) -> dict[str, str]:
         """
-        Render all components to HTML and separate the banner and content
+        Render all components to HTML and separate the banner and content with semantic structure
 
         Args:
             components: List of resume components
 
         Returns:
-            Dictionary with 'header' and 'content' HTML strings
+            dictionary with 'header' and 'content' HTML strings
         """
         header_html = ""
         content_html = []
@@ -282,8 +357,42 @@ class Renderer:
             header_html = self.render_banner(cast(ResumeBanner, resume_banner))
             components = [c for c in components if c != resume_banner]
 
-        # Render remaining components
+        # Wrap content in semantic sections
+        current_section = []
+        section_components = []
+
         for component in components:
-            content_html.append(self.render_component(component))
+            if (
+                component.get_component_type() == "heading"
+                and cast(HeadingComponent, component).level == 2
+            ):
+                # Start new section
+                if current_section:
+                    section_components.append(current_section)
+                current_section = [component]
+            else:
+                current_section.append(component)
+
+        # Add the last section
+        if current_section:
+            section_components.append(current_section)
+
+        # Render sections with semantic markup
+        for section in section_components:
+            if section:
+                section_html = []
+
+                header = section[0]
+                section_id = self._clean_for_html(header.content)
+                section_html.append(f'<section role="region" id="{section_id}">')
+                section_html.append(self.render_component(header))
+                section_html.append("<article>")
+
+                for component in section[1:]:
+                    section_html.append(self.render_component(component))
+
+                section_html.append("</article>")
+                section_html.append("</section>")
+                content_html.extend(section_html)
 
         return {"header": header_html, "content": "\n".join(content_html)}

@@ -3,7 +3,7 @@ repos:
     hooks:
       - id: uv-sync
         name: uv sync
-        entry: uv sync
+        entry: uv sync --all-extras
         language: system
         pass_filenames: false
       - id: isort

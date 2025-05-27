@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import List, Optional
+from typing import override
 
 
 class ResumeComponent(ABC):
@@ -16,8 +16,9 @@ class ResumeBanner(ResumeComponent):
     """Header component for resume with name and contact information"""
 
     name: str
-    contact_info: Optional[str] = None
+    contact_info: str | None = None
 
+    @override
     def get_component_type(self) -> str:
         return "banner"
 
@@ -29,6 +30,7 @@ class HeadingComponent(ResumeComponent):
     level: int
     content: str
 
+    @override
     def get_component_type(self) -> str:
         return "heading"
 
@@ -39,6 +41,7 @@ class ParagraphComponent(ResumeComponent):
 
     content: str
 
+    @override
     def get_component_type(self) -> str:
         return "paragraph"
 
@@ -48,8 +51,9 @@ class ListComponent(ResumeComponent):
     """Component for bullet points or numbered lists"""
 
     list_type: str  # 'ordered' or 'unordered'
-    items: List[str]
+    items: list[str]
 
+    @override
     def get_component_type(self) -> str:
         return "list"
 
@@ -58,10 +62,11 @@ class ListComponent(ResumeComponent):
 class TableComponent(ResumeComponent):
     """Component for structured tabular data"""
 
-    headers: List[str]
-    alignments: List[str]
-    rows: List[List[str]]
+    headers: list[str]
+    alignments: list[str]
+    rows: list[list[str]]
 
+    @override
     def get_component_type(self) -> str:
         return "table"
 
@@ -70,5 +75,18 @@ class TableComponent(ResumeComponent):
 class PageBreakComponent(ResumeComponent):
     """Component for forcing a page break in the document"""
 
+    @override
     def get_component_type(self) -> str:
         return "page-break"
+
+
+@dataclass
+class ATSInfoComponent(ResumeComponent):
+    """Component for ATS-specific information that will be hidden from visual display but accessible to text extraction"""
+
+    info_type: str  # e.g., "Skills", "Tools", etc.
+    content: str  # The actual content/list
+
+    @override
+    def get_component_type(self) -> str:
+        return "ats-info"

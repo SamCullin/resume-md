@@ -21,13 +21,9 @@
 
             shellHook = ''
               # Create and activate virtual environment if it doesn't exist
-              if [ ! -d .venv ]; then
-                uv python -m venv .venv
-              fi
+              uv venv
               source .venv/bin/activate
-
-              uv sync
-              
+              uv sync --all-extras
             '';
           };
         };

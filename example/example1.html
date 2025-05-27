@@ -1,9 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" prefix="og: https://ogp.me/ns#">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Professional resume for Example1">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="Example1">
+    <meta property="og:title" content="Example1">
+    <meta property="og:type" content="profile">
+    <meta property="og:description" content="Professional resume and work experience">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="format-detection" content="telephone=no">
     <title>Example1</title>
+    
+    <!-- Schema.org structured data for better ATS parsing -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Example1",
+        "description": "Professional resume",
+        "url": window.location.href
+    }
+    </script>
+    
     <!-- Include Tailwind CSS via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Custom Tailwind configuration -->
@@ -18,7 +38,7 @@
                         dark: '#2c3e50',
                     },
                     fontFamily: {
-                        sans: ['Roboto', 'Arial', 'sans-serif'],
+                        sans: ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
                     },
                 }
             },
@@ -59,8 +79,7 @@
             ],
         }
     </script>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Using system fonts for better print compatibility -->
     <style>
         /* Add custom styles that can't be achieved with Tailwind */
         @page {
@@ -81,55 +100,193 @@
                 color-adjust: exact;
             }
         }
+        
+        /* Improve text copyability for ATS */
+        address {
+            font-style: normal;
+        }
+        
+        /* Ensure proper spacing for text selection */
+        .contact-item::after {
+            content: " ";
+        }
+        
+        /* Add visible bullet points for list items when copying */
+        .list-item-with-bullet::before {
+            content: "• ";
+            color: #000000;
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
+        
+        /* Ensure custom bullet lists don't show default bullets */
+        .custom-bullet-list, .custom-number-list {
+            list-style: none;
+        }
+        
+        /* Hide any default bullets on our custom list items */
+        .list-item-with-bullet {
+            list-style: none;
+        }
+        
+        /* Contact separator spacing */
+        .contact-separator {
+            display: inline-block;
+            width: 0.25em;
+        }
+        
+        /* Improve text selection and font rendering */
+        * {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
+            font-feature-settings: "kern" 1;
+            -webkit-font-feature-settings: "kern" 1;
+            -moz-font-feature-settings: "kern" 1;
+            font-kerning: normal;
+        }
+        
+        /* Ensure proper text encoding and selection */
+        body {
+            -webkit-user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
+            user-select: text;
+            font-variant-ligatures: none;
+            -webkit-font-variant-ligatures: none;
+        }
+        
+        /* Force proper spacing for list items */
+        li {
+            display: list-item;
+            text-indent: 0;
+        }
+        
+        /* Improve PDF text extraction */
+        @media print {
+            * {
+                -webkit-print-color-adjust: exact;
+                color-adjust: exact;
+                print-color-adjust: exact;
+                /* Force standard fonts for better print compatibility */
+                font-family: 'Arial', 'Helvetica', sans-serif !important;
+            }
+            
+            /* Ensure bullets are preserved in print */
+            .list-item-with-bullet::before {
+                content: "• " !important;
+            }
+            
+            /* Disable font smoothing for print to avoid rendering issues */
+            body, * {
+                -webkit-font-smoothing: auto !important;
+                -moz-osx-font-smoothing: auto !important;
+                text-rendering: auto !important;
+            }
+        }
+        
+        /* Hide all the hidden content */
+        .ats-visible {
+            font-size: 0.1px;
+            color: white;
+            height: auto;
+            visibility: visible;
+        }
+        
     </style>
 </head>
-<body class="font-sans text-gray-800 bg-white print:m-0 print:p-0">
-    <!-- Main container with max width -->
-    <div class="max-w-[800px] mx-auto mt-8 mb-6 bg-white shadow-lg print:shadow-none print:m-0 print:p-0 print:relative">
-        <!-- Resume banner section with resume-banner class -->
-        <div class="resume-banner w-full">
-            
-        <div class="w-full bg-primary text-white print:px-[1cm] px-8 py-2">
-            <div class="flex flex-row items-center justify-between w-full"><div class="flex-shrink-0"><h1 class="text-2xl font-bold">John Doe</h1></div><div class="flex-shrink-0 ml-auto"><div class="mx-auto text-right contact-info" style="text-align: right;"><div class="contact-item text-right" style="text-align: right;"><strong class="font-bold">Email:</strong> <a href="mailto:john.doe@example.com" class="hover:underline">john.doe@example.com</a></div><div class="contact-item text-right" style="text-align: right;"><strong class="font-bold">Phone:</strong> <a href="tel:+12345678901" class="hover:underline">+1 (234) 567-8901</a></div><div class="contact-item text-right" style="text-align: right;"><strong class="font-bold">LinkedIn:</strong> <a href="https://www.linkedin.com/in/johndoe/" class="hover:underline">linkedin.com/in/johndoe</a></div><div class="contact-item text-right" style="text-align: right;"><strong class="font-bold">GitHub:</strong> <a href="https://github.com/johndoe" class="hover:underline">github.com/johndoe</a></div></div></div></div>
-        </div>  
+<body class="font-sans text-gray-800 bg-white print:m-0 print:p-0" itemscope itemtype="https://schema.org/Person">
+    <!-- Main resume document with semantic structure -->
+    <article class="max-w-[800px] mx-auto mt-8 mb-6 bg-white shadow-lg print:shadow-none print:m-0 print:p-0 print:relative" role="main" aria-label="Resume Document">
+        <!-- Resume header section -->
         
-        </div>
+        <header class="w-full bg-primary text-white print:px-[1cm] px-8 py-2" itemscope itemtype="https://schema.org/Person">
+            <section class="flex flex-col sm:flex-row items-start sm:items-center w-full"><div class="flex-shrink-0 text-left"><h1 class="text-2xl font-bold" itemprop="name">John Doe</h1></div><div class="flex-shrink-0 mt-2 sm:mt-0 sm:ml-auto"><address class="contact-info text-left sm:text-right not-italic">
+<div class="contact-item" data-contact-type="Email"><strong class="font-bold">Email:</strong><span class="contact-separator"> </span><a href="mailto:john.doe@example.com" class="hover:underline" rel="noopener">john.doe@example.com</a></div>
+<div class="contact-item" data-contact-type="Phone"><strong class="font-bold">Phone:</strong><span class="contact-separator"> </span><a href="tel:+12345678901" class="hover:underline" rel="noopener">+1 (234) 567-8901</a></div>
+<div class="contact-item" data-contact-type="LinkedIn"><strong class="font-bold">LinkedIn:</strong><span class="contact-separator"> </span><a href="https://www.linkedin.com/in/johndoe/" class="hover:underline" rel="noopener">linkedin.com/in/johndoe</a></div>
+<div class="contact-item" data-contact-type="GitHub"><strong class="font-bold">GitHub:</strong><span class="contact-separator"> </span><a href="https://github.com/johndoe" class="hover:underline" rel="noopener">github.com/johndoe</a></div>
+</address></div></section>
+        </header>  
         
-        <!-- Main content area -->
-        <main class="px-8 py-4 print:pt-4 print:px-[1cm]">
-            <h2 class="text-xl font-bold text-primary mb-2 pb-1 pt-2 border-b border-gray-300">Summary</h2>
-<p class="my-2">Software engineer with 5+ years of experience in web development. Specialized in building responsive and performant web applications using modern JavaScript frameworks and cloud technologies. Strong problem-solving skills and a passion for clean, maintainable code.</p>
-<h2 class="text-xl font-bold text-primary mb-2 pb-1 pt-2 border-b border-gray-300">Skills</h2>
-<ul class="list-disc pl-5 my-2 space-y-1 mb-4"><li class="mb-1.5"><strong class="font-bold">Languages:</strong> JavaScript · TypeScript · Python · HTML · CSS · SQL</li><li class="mb-1.5"><strong class="font-bold">Frameworks:</strong> React · Node.js · Express · Django · Flask</li><li class="mb-1.5"><strong class="font-bold">Cloud:</strong> AWS (EC2, S3, Lambda) · Google Cloud · Serverless</li><li class="mb-1.5"><strong class="font-bold">Tools:</strong> Git · Docker · CI/CD · Jest · Webpack</li><li class="mb-1.5"><strong class="font-bold">Databases:</strong> PostgreSQL · MongoDB · Redis</li></ul>
-<h2 class="text-xl font-bold text-primary mb-2 pb-1 pt-2 border-b border-gray-300">Experience</h2>
-<h3 class="text-base font-bold text-primary mt-2 mb-1">Acme Inc.</h3>
-<h4 class="text-sm font-semibold text-gray-800 mt-1 mb-1">Senior Frontend Developer</h4>
-<h5 class="text-xs font-semibold text-gray-800 mt-1 mb-1">January 2020 - Present</h5>
-<ul class="list-disc pl-5 my-2 space-y-1 mb-4"><li class="mb-1.5">Developed and maintained a high-traffic e-commerce platform serving 50,000+ daily users</li><li class="mb-1.5">Led the migration from legacy AngularJS codebase to React, resulting in 40% faster page loads</li><li class="mb-1.5">Implemented automated testing strategy that improved code coverage from 45% to 85%</li><li class="mb-1.5">Mentored junior developers and conducted code reviews to maintain code quality</li></ul>
-<h3 class="text-base font-bold text-primary mt-2 mb-1">Tech Solutions Ltd.</h3>
-<h4 class="text-sm font-semibold text-gray-800 mt-1 mb-1">Full Stack Developer</h4>
-<h5 class="text-xs font-semibold text-gray-800 mt-1 mb-1">March 2017 - December 2019</h5>
-<ul class="list-disc pl-5 my-2 space-y-1 mb-4"><li class="mb-1.5">Built RESTful APIs using Node.js and Express to support mobile and web applications</li><li class="mb-1.5">Designed and implemented database schemas for PostgreSQL and MongoDB</li><li class="mb-1.5">Created responsive web interfaces with modern CSS frameworks</li><li class="mb-1.5">Worked in an agile team environment with 2-week sprint cycles</li></ul>
-<h2 class="text-xl font-bold text-primary mb-2 pb-1 pt-2 border-b border-gray-300">Education</h2>
-<h3 class="text-base font-bold text-primary mt-2 mb-1">University of Technology</h3>
-<h4 class="text-sm font-semibold text-gray-800 mt-1 mb-1">Bachelor of Science in Computer Science</h4>
-<h5 class="text-xs font-semibold text-gray-800 mt-1 mb-1">2013 - 2017</h5>
-<ul class="list-disc pl-5 my-2 space-y-1 mb-4"><li class="mb-1.5">GPA: 3.8/4.0</li><li class="mb-1.5">Relevant Coursework: Data Structures, Algorithms, Database Systems, Web Development</li><li class="mb-1.5">Senior project: Real-time collaborative text editor using WebSockets</li></ul>
-<h2 class="text-xl font-bold text-primary mb-2 pb-1 pt-2 border-b border-gray-300">Projects</h2>
-<ul class="list-disc pl-5 my-2 space-y-1 mb-4"><li class="mb-1.5"><strong class="font-bold">Task Management App</strong>: A full-stack web application for task management with React, Node.js, and MongoDB.</li><li class="mb-1.5"><strong class="font-bold">Weather Dashboard</strong>: A responsive weather dashboard using OpenWeatherMap API.</li><li class="mb-1.5"><strong class="font-bold">Personal Blog</strong>: A statically generated blog using Gatsby and Markdown.</li></ul>
-<h2 class="text-xl font-bold text-primary mb-2 pb-1 pt-2 border-b border-gray-300">Languages</h2>
-<ul class="list-disc pl-5 my-2 space-y-1 mb-4"><li class="mb-1.5">English (Native)</li><li class="mb-1.5">Spanish (Intermediate)</li><li class="mb-1.5">French (Basic)</li></ul>
+        
+        <!-- Main content area with semantic sections -->
+        <main class="px-8 py-2 print:pt-4 print:px-[1cm]" role="main" aria-label="Resume Content">
+            <section role="region" id="Summary">
+<h2 class="text-xl font-bold text-primary mb-2 pb-1 pt-1 border-b border-gray-300" id="Summary" role="heading" aria-level="2">Summary</h2>
+<article>
+<p class="my-1">Software engineer with 5+ years of experience in web development. Specialized in building responsive and performant web applications using modern JavaScript frameworks and cloud technologies. Strong problem-solving skills and a passion for clean, maintainable code.</p>
+</article>
+</section>
+<section role="region" id="Skills">
+<h2 class="text-xl font-bold text-primary mb-2 pb-1 pt-1 border-b border-gray-300" id="Skills" role="heading" aria-level="2">Skills</h2>
+<article>
+<ul class="pl-5 my-2 space-y-1 custom-bullet-list mb-2" role="list"><li class="mb-1.5 list-item-with-bullet" role="listitem" data-bullet="• "><strong class="font-bold">Languages:</strong> JavaScript · TypeScript · Python · HTML · CSS · SQL</li>
+<li class="mb-1.5 list-item-with-bullet" role="listitem" data-bullet="• "><strong class="font-bold">Frameworks:</strong> React · Node.js · Express · Django · Flask</li>
+<li class="mb-1.5 list-item-with-bullet" role="listitem" data-bullet="• "><strong class="font-bold">Cloud:</strong> AWS (EC2, S3, Lambda) · Google Cloud · Serverless</li>
+<li class="mb-1.5 list-item-with-bullet" role="listitem" data-bullet="• "><strong class="font-bold">Tools:</strong> Git · Docker · CI/CD · Jest · Webpack</li>
+<li class="mb-1.5 list-item-with-bullet" role="listitem" data-bullet="• "><strong class="font-bold">Databases:</strong> PostgreSQL · MongoDB · Redis</li></ul>
+</article>
+</section>
+<section role="region" id="Experience">
+<h2 class="text-xl font-bold text-primary mb-2 pb-1 pt-1 border-b border-gray-300" id="Experience" role="heading" aria-level="2">Experience</h2>
+<article>
+<h3 class="text-base font-bold text-primary mt-1 mb-1" itemprop="worksFor" itemscope itemtype="https://schema.org/Organization"><span itemprop="name">Acme Inc.</span></h3>
+<h4 class="text-sm font-semibold text-gray-800 mt-1 mb-1" itemprop="jobTitle">Senior Frontend Developer</h4>
+<h5 class="text-xs font-semibold text-gray-800 mt-1 mb-1"><time>January 2020 - Present</time></h5>
+<ul class="pl-5 my-2 space-y-1 custom-bullet-list mb-2" role="list"><li class="mb-1.5 list-item-with-bullet" role="listitem" data-bullet="• ">Developed and maintained a high-traffic e-commerce platform serving 50,000+ daily users</li>
+<li class="mb-1.5 list-item-with-bullet" role="listitem" data-bullet="• ">Led the migration from legacy AngularJS codebase to React, resulting in 40% faster page loads</li>
+<li class="mb-1.5 list-item-with-bullet" role="listitem" data-bullet="• ">Implemented automated testing strategy that improved code coverage from 45% to 85%</li>
+<li class="mb-1.5 list-item-with-bullet" role="listitem" data-bullet="• ">Mentored junior developers and conducted code reviews to maintain code quality</li></ul>
+<h3 class="text-base font-bold text-primary mt-1 mb-1" itemprop="worksFor" itemscope itemtype="https://schema.org/Organization"><span itemprop="name">Tech Solutions Ltd.</span></h3>
+<h4 class="text-sm font-semibold text-gray-800 mt-1 mb-1" itemprop="jobTitle">Full Stack Developer</h4>
+<h5 class="text-xs font-semibold text-gray-800 mt-1 mb-1"><time>March 2017 - December 2019</time></h5>
+<ul class="pl-5 my-2 space-y-1 custom-bullet-list mb-2" role="list"><li class="mb-1.5 list-item-with-bullet" role="listitem" data-bullet="• ">Built RESTful APIs using Node.js and Express to support mobile and web applications</li>
+<li class="mb-1.5 list-item-with-bullet" role="listitem" data-bullet="• ">Designed and implemented database schemas for PostgreSQL and MongoDB</li>
+<li class="mb-1.5 list-item-with-bullet" role="listitem" data-bullet="• ">Created responsive web interfaces with modern CSS frameworks</li>
+<li class="mb-1.5 list-item-with-bullet" role="listitem" data-bullet="• ">Worked in an agile team environment with 2-week sprint cycles</li></ul>
+</article>
+</section>
+<section role="region" id="Education">
+<h2 class="text-xl font-bold text-primary mb-2 pb-1 pt-1 border-b border-gray-300" id="Education" role="heading" aria-level="2">Education</h2>
+<article>
+<h3 class="text-base font-bold text-primary mt-1 mb-1" itemprop="worksFor" itemscope itemtype="https://schema.org/Organization"><span itemprop="name">University of Technology</span></h3>
+<h4 class="text-sm font-semibold text-gray-800 mt-1 mb-1" itemprop="jobTitle">Bachelor of Science in Computer Science</h4>
+<h5 class="text-xs font-semibold text-gray-800 mt-1 mb-1"><time>2013 - 2017</time></h5>
+<ul class="pl-5 my-2 space-y-1 custom-bullet-list mb-2" role="list"><li class="mb-1.5 list-item-with-bullet" role="listitem" data-bullet="• ">GPA: 3.8/4.0</li>
+<li class="mb-1.5 list-item-with-bullet" role="listitem" data-bullet="• ">Relevant Coursework: Data Structures, Algorithms, Database Systems, Web Development</li>
+<li class="mb-1.5 list-item-with-bullet" role="listitem" data-bullet="• ">Senior project: Real-time collaborative text editor using WebSockets</li></ul>
+</article>
+</section>
+<section role="region" id="Projects">
+<h2 class="text-xl font-bold text-primary mb-2 pb-1 pt-1 border-b border-gray-300" id="Projects" role="heading" aria-level="2">Projects</h2>
+<article>
+<ul class="pl-5 my-2 space-y-1 custom-bullet-list mb-2" role="list"><li class="mb-1.5 list-item-with-bullet" role="listitem" data-bullet="• "><strong class="font-bold">Task Management App</strong>: A full-stack web application for task management with React, Node.js, and MongoDB.</li>
+<li class="mb-1.5 list-item-with-bullet" role="listitem" data-bullet="• "><strong class="font-bold">Weather Dashboard</strong>: A responsive weather dashboard using OpenWeatherMap API.</li>
+<li class="mb-1.5 list-item-with-bullet" role="listitem" data-bullet="• "><strong class="font-bold">Personal Blog</strong>: A statically generated blog using Gatsby and Markdown.</li></ul>
+</article>
+</section>
+<section role="region" id="Languages">
+<h2 class="text-xl font-bold text-primary mb-2 pb-1 pt-1 border-b border-gray-300" id="Languages" role="heading" aria-level="2">Languages</h2>
+<article>
+<ul class="pl-5 my-2 space-y-1 custom-bullet-list mb-2" role="list"><li class="mb-1.5 list-item-with-bullet" role="listitem" data-bullet="• ">English (Native)</li>
+<li class="mb-1.5 list-item-with-bullet" role="listitem" data-bullet="• ">Spanish (Intermediate)</li>
+<li class="mb-1.5 list-item-with-bullet" role="listitem" data-bullet="• ">French (Basic)</li></ul>
+</article>
+</section>
         </main>
         
         <!-- Footer with subtle branding -->
-        <footer class="bg-neutral px-8 py-3 border-t border-gray-200 text-center text-gray-500 text-sm print:hidden">
+        <footer class="bg-neutral px-8 py-3 border-t border-gray-200 text-center text-gray-500 text-sm print:hidden" role="contentinfo">
             <p>Created with Markdown Resume Generator &mdash; <a href="https://github.com/SamCullin/resume-md" class="text-primary hover:underline" target="_blank" rel="noopener">View on GitHub</a></p>
         </footer>
-    </div>
+    </article>
     
     <!-- Print button -->
-    <div class="fixed bottom-4 right-4 print:hidden">
-        <button onclick="window.print()" class="bg-secondary hover:bg-primary text-white px-4 py-2 rounded shadow transition-colors duration-300">
+    <div class="fixed bottom-4 right-4 print:hidden" role="toolbar" aria-label="Document Actions">
+        <button onclick="window.print()" class="bg-secondary hover:bg-primary text-white px-4 py-2 rounded shadow transition-colors duration-300" aria-label="Print Resume">
             Print Resume
         </button>
     </div>
