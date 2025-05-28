@@ -78,8 +78,7 @@ class PageBreakComponent(ResumeComponent):
 class ATSInfoComponent(ResumeComponent):
     """Component for ATS-specific information that will be hidden from visual display but accessible to text extraction"""
 
-    info_type: str  # e.g., "Skills", "Tools", etc.
-    content: str  # The actual content/list
+    contents: list[str]
 
     def get_component_type(self) -> str:
         return "ats-info"

@@ -32,8 +32,7 @@ class MarkdownTokenizer:
                 self._process_page_break()
                 i += 1
             elif self._is_ats_info_comment(line):
-                self._process_ats_info(line)
-                i += 1
+                i = self._process_ats_info(lines, i)
             elif self._is_header(line):
                 i = self._process_header(lines, i)
             elif self._is_table(lines, i):
@@ -55,17 +54,31 @@ class MarkdownTokenizer:
 
     def _is_ats_info_comment(self, line: str) -> bool:
         """Check if the line is an ATS-info comment."""
-        return bool(re.match(r"^\[ats-info\]:\s*#\s+(.*?):\s*(.*?)$", line))
+        return bool(re.match(r"^\[ats-info\]:\s*#\s+(.*?)$", line))
 
-    def _process_ats_info(self, line: str) -> None:
+    def _process_ats_info(self, lines: list[str], i: int) -> int:
         """Process an ATS-info comment and add it to tokens."""
-        ats_match = re.match(r"^\[ats-info\]:\s*#\s+(.*?):\s*(.*?)$", line)
+        line = lines[i]
+        ats_info_regex = r"^\[ats-info\]:\s*#\s+(.*?)$"
+        ats_match = re.match(ats_info_regex, line)
         if ats_match:
-            info_type = ats_match.group(1).strip()
-            content = ats_match.group(2).strip()
-            self.tokens.append(
-                {"type": "ats-info", "info_type": info_type, "content": content}
-            )
+            content = ats_match.group(1).strip()
+
+            contents = [content]
+            i += 1
+
+            # Collect continuation lines that start with "+ "
+            while i < len(lines):
+                next_line = lines[i]
+                continuation_match = re.match(ats_info_regex, next_line)
+                if continuation_match:
+                    contents.append(continuation_match.group(1).strip())
+                    i += 1
+                else:
+                    break
+
+            self.tokens.append({"type": "ats-info", "contents": contents})
+        return i
 
     def _is_header(self, line: str) -> bool:
         """Check if the line is a header."""

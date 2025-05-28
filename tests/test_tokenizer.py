@@ -86,14 +86,13 @@ def test_ats_info_tokenization():
     tokens = tokenizer.tokenize()
 
     # Assert
-    assert len(tokens) == 4
+    assert len(tokens) == 3
     assert tokens[0]["type"] == "paragraph"
     assert tokens[0]["content"] == "This is some content."
     assert tokens[1]["type"] == "ats-info"
-    assert tokens[1]["info_type"] == "Skills"
-    assert tokens[1]["content"] == "Python, JavaScript, TypeScript"
-    assert tokens[2]["type"] == "ats-info"
-    assert tokens[2]["info_type"] == "Tools"
-    assert tokens[2]["content"] == "Git, Docker, AWS"
-    assert tokens[3]["type"] == "paragraph"
-    assert tokens[3]["content"] == "This is content after the ATS info."
+    assert tokens[1]["contents"] == [
+        "Skills: Python, JavaScript, TypeScript",
+        "Tools: Git, Docker, AWS",
+    ]
+    assert tokens[2]["type"] == "paragraph"
+    assert tokens[2]["content"] == "This is content after the ATS info."

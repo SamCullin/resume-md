@@ -304,10 +304,17 @@ class Renderer:
         Returns:
             HTML string for the ATS info that's hidden but extractable
         """
-        # Create a hidden div that ATS systems can read but users can't see
-        # Using multiple techniques to ensure it's hidden but still accessible to text extraction
-        ats_field = self._clean_for_html(component.info_type.lower())
-        return f"""<div class="p-0 m-0 h-0"><span class="ats-visible" data-ats-field="{ats_field}">{component.info_type}: {component.content}</span></div>"""
+        # Create a hidden aside that ATS systems can read but users can't see
+        # Using white text with tiny font size and line height
+        content_lines: list[str] = []
+        for content in component.contents:
+            content_lines.append(f'<p class="p-0 m-0">{content}</p>')
+
+        content_html = "\n".join(content_lines)
+
+        return f"""<aside class="p-0 m-0 text-white selection:text-white" style="font-size: 1px; line-height: 0.1px;">
+            {content_html}
+        </aside>"""
 
     def render_component(self, component: ResumeComponent) -> str:
         """
@@ -384,17 +391,40 @@ class Renderer:
             if section:
                 section_html = []
 
-                header = section[0]
-                section_id = self._clean_for_html(header.content)
-                section_html.append(f'<section role="region" id="{section_id}">')
-                section_html.append(self.render_component(header))
-                section_html.append("<article>")
+                # Find the first heading component to use as section header
+                header = None
+                header_index = 0
+                for i, component in enumerate(section):
+                    if component.get_component_type() == "heading":
+                        header = component
+                        header_index = i
+                        break
 
-                for component in section[1:]:
-                    section_html.append(self.render_component(component))
+                if header:
+                    section_id = self._clean_for_html(
+                        cast(HeadingComponent, header).content
+                    )
+                    section_html.append(f'<section role="region" id="{section_id}">')
 
-                section_html.append("</article>")
-                section_html.append("</section>")
+                    # Render any components before the heading
+                    for component in section[:header_index]:
+                        section_html.append(self.render_component(component))
+
+                    # Render the heading
+                    section_html.append(self.render_component(header))
+                    section_html.append("<article>")
+
+                    # Render components after the heading
+                    for component in section[header_index + 1 :]:
+                        section_html.append(self.render_component(component))
+
+                    section_html.append("</article>")
+                    section_html.append("</section>")
+                else:
+                    # No heading found, render all components without section wrapper
+                    for component in section:
+                        section_html.append(self.render_component(component))
+
                 content_html.extend(section_html)
 
         return {"header": header_html, "content": "\n".join(content_html)}

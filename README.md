@@ -129,21 +129,33 @@ You can include ATS (Applicant Tracking System) specific information that will b
 
 ```markdown
 [ats-info]: # Skills: Python, JavaScript, TypeScript, React, Node.js
-[ats-info]: # Tools: Git, GitHub, VS Code, Docker, Kubernetes
-[ats-info]: # Certifications: AWS Certified Solutions Architect
-[ats-info]: # Languages: English (Native), Spanish (Fluent)
+[ats-info]: # + Tools: Git, GitHub, VS Code, Docker, Kubernetes
+
+
+[ats-info]: # + Certifications: AWS Certified Solutions Architect
+[ats-info]: # + Languages: English (Native), Spanish (Fluent)
+```
+ATS Export Example:
+```markdown
+Skills: Python, JavaScript, TypeScript, React, Node.js + Tools: Git, GitHub, VS Code, Docker, Kubernetes + Certifications: AWS Certified Solutions Architect + Languages: English (Native), Spanish (Fluent)
 ```
 
-The ATS-info comments follow the format: `[ats-info]: # Category: Content`
-
-- **Category**: The type of information (e.g., Skills, Tools, Certifications)
-- **Content**: The actual information content
+The ATS-info comments follow the format: `[ats-info]: # Content`
 
 This information will be rendered as hidden HTML elements that are:
 - Invisible to users viewing the resume
 - Accessible to ATS systems for keyword extraction
-- Properly structured with semantic markup
-- Tagged with data attributes for field identification
+
+
+> [!NOTE]
+> The ATS-info comments once exported to pdf will collapse to a single line.
+> This is because the pdf format cannot support fonts below 1.5pt and sees these smaller lines as a single line.
+> Keep this in mind when formatting your ats-info comments.
+
+
+
+
+
 
 **Example usage in a resume:**
 

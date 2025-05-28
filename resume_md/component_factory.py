@@ -52,6 +52,6 @@ def tokens_to_components(tokens: list[dict[str, Any]]) -> list[ResumeComponent]:
         elif token["type"] == "page-break":
             components.append(PageBreakComponent())
         elif token["type"] == "ats-info":
-            components.append(ATSInfoComponent(token["info_type"], token["content"]))
+            components.append(ATSInfoComponent(token["contents"]))
 
     return components

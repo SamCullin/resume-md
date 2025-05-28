@@ -30,17 +30,14 @@ Some experience content."""
     # Assert
     # Check that ATS-info components were created
     ats_components = [c for c in components if isinstance(c, ATSInfoComponent)]
-    assert len(ats_components) == 2
-    assert ats_components[0].info_type == "Skills"
-    assert ats_components[0].content == "Python, JavaScript"
-    assert ats_components[1].info_type == "Tools"
-    assert ats_components[1].content == "Git, Docker"
+    assert len(ats_components) == 1
+    assert ats_components[0].contents == [
+        "Skills: Python, JavaScript",
+        "Tools: Git, Docker",
+    ]
 
     # Check that ATS-info is rendered in the HTML content
     content_html = rendered["content"]
-    assert 'class="ats-visible"' in content_html
-    assert 'data-ats-field="skills"' in content_html
-    assert 'data-ats-field="tools"' in content_html
     assert "Skills: Python, JavaScript" in content_html
     assert "Tools: Git, Docker" in content_html
 
@@ -48,15 +45,13 @@ Some experience content."""
 def test_ats_info_component_rendering():
     """Test that ATS-info components render correctly"""
     # Arrange
-    component = ATSInfoComponent("Skills", "Python, JavaScript, TypeScript")
+    component = ATSInfoComponent(["Skills: Python, JavaScript, TypeScript"])
     renderer = Renderer()
 
     # Act
     html = renderer.render_ats_info(component)
 
     # Assert
-    assert 'class="ats-visible"' in html
-    assert 'data-ats-field="skills"' in html
     assert "Skills: Python, JavaScript, TypeScript" in html
 
 
@@ -81,7 +76,34 @@ Content here."""
         len(tokens) == 6
     )  # heading, ats-info, page-break, ats-info, heading, paragraph
     assert tokens[1]["type"] == "ats-info"
-    assert tokens[1]["info_type"] == "Skills"
+    assert tokens[1]["contents"] == ["Skills: Python"]
     assert tokens[2]["type"] == "page-break"
     assert tokens[3]["type"] == "ats-info"
-    assert tokens[3]["info_type"] == "Tools"
+    assert tokens[3]["contents"] == ["Tools: Git"]
+
+
+def test_ats_info_multiline_continuation():
+    """Test that ATS-info supports multiline continuation with + syntax"""
+    # Arrange
+    markdown = """# Resume
+
+[ats-info]: # Skills: Python, JavaScript
+[ats-info]: # + React, Node.js
+[ats-info]: # + Django, Flask
+
+## Section 1
+Content here."""
+
+    # Act
+    tokenizer = MarkdownTokenizer(markdown)
+    tokens = tokenizer.tokenize()
+    components = tokens_to_components(tokens)
+
+    # Assert
+    ats_components = [c for c in components if isinstance(c, ATSInfoComponent)]
+    assert len(ats_components) == 1
+    assert ats_components[0].contents == [
+        "Skills: Python, JavaScript",
+        "+ React, Node.js",
+        "+ Django, Flask",
+    ]

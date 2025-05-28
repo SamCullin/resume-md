@@ -1,5 +1,7 @@
 # John Doe
-Email: john.doe@example.com | Phone: (555) 123-4567 | LinkedIn: linkedin.com/in/johndoe
+**Email:** [john.doe@example.com](mailto:john.doe@example.com)  
+**Phone:** [+1 (234) 567-8901](tel:+12345678901)  
+**LinkedIn:** [linkedin.com/in/johndoe](https://www.linkedin.com/in/johndoe/)  
 
 [ats-info]: # Skills: Python, JavaScript, TypeScript, React, Node.js, Django, Flask, PostgreSQL, MongoDB, AWS, Docker, Kubernetes
 [ats-info]: # Tools: Git, GitHub, VS Code, IntelliJ IDEA, Postman, Jenkins, Terraform, Ansible

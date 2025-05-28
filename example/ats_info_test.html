@@ -187,14 +187,6 @@
             }
         }
         
-        /* Hide all the hidden content */
-        .ats-visible {
-            font-size: 0.1px;
-            color: white;
-            height: auto;
-            visibility: visible;
-        }
-        
     </style>
 </head>
 <body class="font-sans text-gray-800 bg-white print:m-0 print:p-0" itemscope itemtype="https://schema.org/Person">
@@ -204,21 +196,23 @@
         
         <header class="w-full bg-primary text-white print:px-[1cm] px-8 py-2" itemscope itemtype="https://schema.org/Person">
             <section class="flex flex-col sm:flex-row items-start sm:items-center w-full"><div class="flex-shrink-0 text-left"><h1 class="text-2xl font-bold" itemprop="name">John Doe</h1></div><div class="flex-shrink-0 mt-2 sm:mt-0 sm:ml-auto"><address class="contact-info text-left sm:text-right not-italic">
-<div class="contact-item" data-contact-type="Email"><strong class="font-bold">Email:</strong><span class="contact-separator"> </span><span>john.doe@example.com | Phone: (555) 123-4567 | LinkedIn: linkedin.com/in/johndoe</span></div>
+<div class="contact-item" data-contact-type="Email"><strong class="font-bold">Email:</strong><span class="contact-separator"> </span><a href="mailto:john.doe@example.com" class="hover:underline" rel="noopener">john.doe@example.com</a></div>
+<div class="contact-item" data-contact-type="Phone"><strong class="font-bold">Phone:</strong><span class="contact-separator"> </span><a href="tel:+12345678901" class="hover:underline" rel="noopener">+1 (234) 567-8901</a></div>
+<div class="contact-item" data-contact-type="LinkedIn"><strong class="font-bold">LinkedIn:</strong><span class="contact-separator"> </span><a href="https://www.linkedin.com/in/johndoe/" class="hover:underline" rel="noopener">linkedin.com/in/johndoe</a></div>
 </address></div></section>
         </header>  
         
         
         <!-- Main content area with semantic sections -->
         <main class="px-8 py-2 print:pt-4 print:px-[1cm]" role="main" aria-label="Resume Content">
-            <section role="region" id="Python,-JavaScript,-TypeScript,-React,-Node.js,-Django,-Flask,-PostgreSQL,-MongoDB,-AWS,-Docker,-Kubernetes">
-<div class="p-0 m-0 h-0"><span class="ats-visible" data-ats-field="skills">Skills: Python, JavaScript, TypeScript, React, Node.js, Django, Flask, PostgreSQL, MongoDB, AWS, Docker, Kubernetes</span></div>
-<article>
-<div class="p-0 m-0 h-0"><span class="ats-visible" data-ats-field="tools">Tools: Git, GitHub, VS Code, IntelliJ IDEA, Postman, Jenkins, Terraform, Ansible</span></div>
-<div class="p-0 m-0 h-0"><span class="ats-visible" data-ats-field="certifications">Certifications: AWS Certified Solutions Architect, Kubernetes Certified Application Developer</span></div>
-<div class="p-0 m-0 h-0"><span class="ats-visible" data-ats-field="languages">Languages: English (Native), Spanish (Fluent), French (Conversational)</span></div>
-</article>
-</section>
+            <aside class="p-0 m-0 text-white selection:text-white" style="font-size: 1px; line-height: 0.1px;">
+            <p class="p-0 m-0">Skills: Python, JavaScript, TypeScript, React, Node.js, Django, Flask, PostgreSQL, MongoDB, AWS, Docker, Kubernetes</p>
+<p class="p-0 m-0">Tools: Git, GitHub, VS Code, IntelliJ IDEA, Postman, Jenkins, Terraform, Ansible</p>
+        </aside>
+<aside class="p-0 m-0 text-white selection:text-white" style="font-size: 1px; line-height: 0.1px;">
+            <p class="p-0 m-0">Certifications: AWS Certified Solutions Architect, Kubernetes Certified Application Developer</p>
+<p class="p-0 m-0">Languages: English (Native), Spanish (Fluent), French (Conversational)</p>
+        </aside>
 <section role="region" id="Professional-Experience">
 <h2 class="text-xl font-bold text-primary mb-2 pb-1 pt-1 border-b border-gray-300" id="Professional-Experience" role="heading" aria-level="2">Professional Experience</h2>
 <article>
