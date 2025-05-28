@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v1.2.1 (2025-05-28)
+
+### Bug Fixes
+
+- Ats comments now do not interlace with other content
+  ([`d7a3c1a`](https://github.com/SamCullin/resume-md/commit/d7a3c1a9454df79f97989aa6623d19a90e917032))
+
+
 ## v1.2.0 (2025-05-27)
 
 ### Bug Fixes
