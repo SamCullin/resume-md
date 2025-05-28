@@ -105,6 +105,23 @@
         address {
             font-style: normal;
         }
+
+        /* ATS-visible content styling */
+        .ats-visible {
+            font-size: 1px;
+            line-height: 0.1px;
+            color: white;
+            margin: 0;
+            padding: 0;
+        }
+        
+        /* Ensure ATS content is included in text selection and copy operations */
+        .ats-visible {
+            -webkit-user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
+            user-select: text;
+        }
         
         /* Ensure proper spacing for text selection */
         .contact-item::after {
