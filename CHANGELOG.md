@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v1.2.2 (2025-05-28)
+
+### Bug Fixes
+
+- Ats-visible class required for table
+  ([`319c79e`](https://github.com/SamCullin/resume-md/commit/319c79e3eb081cebb273d96343b18d5b6f432a91))
+
+
 ## v1.2.1 (2025-05-28)
 
 ### Bug Fixes
