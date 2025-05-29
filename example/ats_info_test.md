@@ -3,10 +3,10 @@
 **Phone:** [+1 (234) 567-8901](tel:+12345678901)  
 **LinkedIn:** [linkedin.com/in/johndoe](https://www.linkedin.com/in/johndoe/)  
 
-[ats-info]: # Skills: Python, JavaScript, TypeScript, React, Node.js, Django, Flask, PostgreSQL, MongoDB, AWS, Docker, Kubernetes
-[ats-info]: # Tools: Git, GitHub, VS Code, IntelliJ IDEA, Postman, Jenkins, Terraform, Ansible
-[ats-info]: # Certifications: AWS Certified Solutions Architect, Kubernetes Certified Application Developer
-[ats-info]: # Languages: English (Native), Spanish (Fluent), French (Conversational)
+[ats-info]: # (Skills: Python, JavaScript, TypeScript, React, Node.js, Django, Flask, PostgreSQL, MongoDB, AWS, Docker, Kubernetes)
+[ats-info]: # (Tools: Git, GitHub, VS Code, IntelliJ IDEA, Postman, Jenkins, Terraform, Ansible)
+[ats-info]: # (Certifications: AWS Certified Solutions Architect, Kubernetes Certified Application Developer)
+[ats-info]: # (Languages: English (Native), Spanish (Fluent), French (Conversational))
 
 ## Professional Experience
 
@@ -28,9 +28,11 @@
 
 ## Education
 
-### Bachelor of Science in Computer Science
-#### University of Technology
-##### 2014 - 2018
+| Degree | Institution | Year |
+|--------|-------------|------|
+| Bachelor of Science in Computer Science | University of Technology | 2014 - 2018 |
+| Master of Science in Software Engineering | Tech Institute | 2018 - 2020 |
+| Certificate in Data Science | Online University | 2021 |
 
 ## Projects
 
@@ -41,3 +43,5 @@
 ### Data Analytics Dashboard
 - Real-time dashboard for business metrics
 - Technologies: Python, Pandas, D3.js, PostgreSQL 
+
+

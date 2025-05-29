@@ -54,12 +54,12 @@ class MarkdownTokenizer:
 
     def _is_ats_info_comment(self, line: str) -> bool:
         """Check if the line is an ATS-info comment."""
-        return bool(re.match(r"^\[ats-info\]:\s*#\s+(.*?)$", line))
+        return bool(re.match(r"^\[ats-info\]:\s*#\s+\((.*?)\)$", line))
 
     def _process_ats_info(self, lines: list[str], i: int) -> int:
         """Process an ATS-info comment and add it to tokens."""
         line = lines[i]
-        ats_info_regex = r"^\[ats-info\]:\s*#\s+(.*?)$"
+        ats_info_regex = r"^\[ats-info\]:\s*#\s+\((.*?)\)$"
         ats_match = re.match(ats_info_regex, line)
         if ats_match:
             content = ats_match.group(1).strip()

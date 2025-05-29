@@ -14,8 +14,8 @@ def test_ats_info_end_to_end():
     markdown = """# John Doe
 Email: john@example.com
 
-[ats-info]: # Skills: Python, JavaScript
-[ats-info]: # Tools: Git, Docker
+[ats-info]: # (Skills: Python, JavaScript)
+[ats-info]: # (Tools: Git, Docker)
 
 ## Experience
 Some experience content."""
@@ -60,9 +60,9 @@ def test_mixed_comments():
     # Arrange
     markdown = """# Resume
 
-[ats-info]: # Skills: Python
+[ats-info]: # (Skills: Python)
 [page-break]: # 
-[ats-info]: # Tools: Git
+[ats-info]: # (Tools: Git)
 
 ## Section 1
 Content here."""
@@ -87,9 +87,9 @@ def test_ats_info_multiline_continuation():
     # Arrange
     markdown = """# Resume
 
-[ats-info]: # Skills: Python, JavaScript
-[ats-info]: # + React, Node.js
-[ats-info]: # + Django, Flask
+[ats-info]: # (Skills: Python, JavaScript)
+[ats-info]: # (+ React, Node.js)
+[ats-info]: # (+ Django, Flask)
 
 ## Section 1
 Content here."""

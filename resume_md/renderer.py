@@ -76,7 +76,7 @@ class Renderer:
             HTML string for the banner
         """
         # Use semantic header element instead of div
-        inner_html = f'<section class="flex flex-col sm:flex-row items-start sm:items-center w-full">'
+        inner_html = f'<section class="flex flex-col print:flex-row print:items-center sm:flex-row items-start sm:items-center w-full">'
 
         # Name section with proper heading
         inner_html += f'<div class="flex-shrink-0 text-left">'
@@ -85,7 +85,7 @@ class Renderer:
 
         # Contact info using semantic address element
         if component.contact_info:
-            inner_html += f'<div class="flex-shrink-0 mt-2 sm:mt-0 sm:ml-auto">'
+            inner_html += f'<div class="flex-shrink-0 mt-2 print:mt-0 sm:mt-0 print:ml-auto sm:ml-auto">'
             contact_html = self._build_contact_info(component.contact_info)
             inner_html += contact_html
             inner_html += f"</div>"
@@ -312,7 +312,7 @@ class Renderer:
 
         content_html = "\n".join(content_lines)
 
-        return f"""<aside class="p-0 m-0 text-white selection:text-white" style="font-size: 1px; line-height: 0.1px;">
+        return f"""<aside class="ats-visible">
             {content_html}
         </aside>"""
 

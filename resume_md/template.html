@@ -108,9 +108,10 @@
 
         /* ATS-visible content styling */
         .ats-visible {
-            font-size: 1px;
+            font-size: 0.555px;
             line-height: 0.1px;
-            color: white;
+            color: white !important;
+            background-color: white !important;
             margin: 0;
             padding: 0;
         }
@@ -137,7 +138,60 @@
             width: 1em;
             margin-left: -1em;
         }
-        
+
+        h1::before {
+            content: "# ";
+            color: #ffffff;
+            font-size: .555px;
+            line-height: 0.1px;
+            display: inline-block;
+            width: 1em;
+        }
+
+        h2::before {
+            content: "## ";
+            color: #ffffff;
+            font-size: .555px;
+            line-height: 0.1px;
+            display: inline-block;
+            width: 1em;
+        }
+
+        h3::before {
+            content: "### ";
+            color: #ffffff;
+            font-size: .555px;
+            line-height: 0.1px;
+            display: inline-block;
+            width: 1em;
+        }
+
+        h4::before {
+            content: "#### ";
+            color: #ffffff;
+            font-size: .555px;
+            line-height: 0.1px;
+            display: inline-block;
+            width: 1em;
+        }
+
+        h5::before {
+            content: "##### ";
+            color: #ffffff;
+            font-size: .555px;
+            line-height: 0.1px;
+            display: inline-block;
+            width: 1em;
+        }
+
+        h6::before {
+            content: "###### ";
+            color: #ffffff;
+            font-size: .555px;
+            line-height: 0.1px;
+            display: inline-block;
+            width: 1em;
+        }
         /* Ensure custom bullet lists don't show default bullets */
         .custom-bullet-list, .custom-number-list {
             list-style: none;

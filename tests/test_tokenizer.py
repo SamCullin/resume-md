@@ -79,7 +79,7 @@ def test_page_break_tokenization():
 def test_ats_info_tokenization():
     """Test that ATS-info comments are properly tokenized"""
     # Arrange
-    markdown = "This is some content.\n\n[ats-info]: # Skills: Python, JavaScript, TypeScript\n[ats-info]: # Tools: Git, Docker, AWS\n\nThis is content after the ATS info."
+    markdown = "This is some content.\n\n[ats-info]: # (Skills: Python, JavaScript, TypeScript)\n[ats-info]: # (Tools: Git, Docker, AWS)\n\nThis is content after the ATS info."
     tokenizer = MarkdownTokenizer(markdown)
 
     # Act

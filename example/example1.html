@@ -105,6 +105,24 @@
         address {
             font-style: normal;
         }
+
+        /* ATS-visible content styling */
+        .ats-visible {
+            font-size: 0.555px;
+            line-height: 0.1px;
+            color: white !important;
+            background-color: white !important;
+            margin: 0;
+            padding: 0;
+        }
+        
+        /* Ensure ATS content is included in text selection and copy operations */
+        .ats-visible {
+            -webkit-user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
+            user-select: text;
+        }
         
         /* Ensure proper spacing for text selection */
         .contact-item::after {
@@ -120,7 +138,60 @@
             width: 1em;
             margin-left: -1em;
         }
-        
+
+        h1::before {
+            content: "# ";
+            color: #ffffff;
+            font-size: .555px;
+            line-height: 0.1px;
+            display: inline-block;
+            width: 1em;
+        }
+
+        h2::before {
+            content: "## ";
+            color: #ffffff;
+            font-size: .555px;
+            line-height: 0.1px;
+            display: inline-block;
+            width: 1em;
+        }
+
+        h3::before {
+            content: "### ";
+            color: #ffffff;
+            font-size: .555px;
+            line-height: 0.1px;
+            display: inline-block;
+            width: 1em;
+        }
+
+        h4::before {
+            content: "#### ";
+            color: #ffffff;
+            font-size: .555px;
+            line-height: 0.1px;
+            display: inline-block;
+            width: 1em;
+        }
+
+        h5::before {
+            content: "##### ";
+            color: #ffffff;
+            font-size: .555px;
+            line-height: 0.1px;
+            display: inline-block;
+            width: 1em;
+        }
+
+        h6::before {
+            content: "###### ";
+            color: #ffffff;
+            font-size: .555px;
+            line-height: 0.1px;
+            display: inline-block;
+            width: 1em;
+        }
         /* Ensure custom bullet lists don't show default bullets */
         .custom-bullet-list, .custom-number-list {
             list-style: none;
@@ -195,7 +266,7 @@
         <!-- Resume header section -->
         
         <header class="w-full bg-primary text-white print:px-[1cm] px-8 py-2" itemscope itemtype="https://schema.org/Person">
-            <section class="flex flex-col sm:flex-row items-start sm:items-center w-full"><div class="flex-shrink-0 text-left"><h1 class="text-2xl font-bold" itemprop="name">John Doe</h1></div><div class="flex-shrink-0 mt-2 sm:mt-0 sm:ml-auto"><address class="contact-info text-left sm:text-right not-italic">
+            <section class="flex flex-col print:flex-row print:items-center sm:flex-row items-start sm:items-center w-full"><div class="flex-shrink-0 text-left"><h1 class="text-2xl font-bold" itemprop="name">John Doe</h1></div><div class="flex-shrink-0 mt-2 print:mt-0 sm:mt-0 print:ml-auto sm:ml-auto"><address class="contact-info text-left sm:text-right not-italic">
 <div class="contact-item" data-contact-type="Email"><strong class="font-bold">Email:</strong><span class="contact-separator"> </span><a href="mailto:john.doe@example.com" class="hover:underline" rel="noopener">john.doe@example.com</a></div>
 <div class="contact-item" data-contact-type="Phone"><strong class="font-bold">Phone:</strong><span class="contact-separator"> </span><a href="tel:+12345678901" class="hover:underline" rel="noopener">+1 (234) 567-8901</a></div>
 <div class="contact-item" data-contact-type="LinkedIn"><strong class="font-bold">LinkedIn:</strong><span class="contact-separator"> </span><a href="https://www.linkedin.com/in/johndoe/" class="hover:underline" rel="noopener">linkedin.com/in/johndoe</a></div>

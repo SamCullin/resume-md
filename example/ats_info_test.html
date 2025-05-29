@@ -105,6 +105,24 @@
         address {
             font-style: normal;
         }
+
+        /* ATS-visible content styling */
+        .ats-visible {
+            font-size: 0.555px;
+            line-height: 0.1px;
+            color: white !important;
+            background-color: white !important;
+            margin: 0;
+            padding: 0;
+        }
+        
+        /* Ensure ATS content is included in text selection and copy operations */
+        .ats-visible {
+            -webkit-user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
+            user-select: text;
+        }
         
         /* Ensure proper spacing for text selection */
         .contact-item::after {
@@ -120,7 +138,60 @@
             width: 1em;
             margin-left: -1em;
         }
-        
+
+        h1::before {
+            content: "# ";
+            color: #ffffff;
+            font-size: .555px;
+            line-height: 0.1px;
+            display: inline-block;
+            width: 1em;
+        }
+
+        h2::before {
+            content: "## ";
+            color: #ffffff;
+            font-size: .555px;
+            line-height: 0.1px;
+            display: inline-block;
+            width: 1em;
+        }
+
+        h3::before {
+            content: "### ";
+            color: #ffffff;
+            font-size: .555px;
+            line-height: 0.1px;
+            display: inline-block;
+            width: 1em;
+        }
+
+        h4::before {
+            content: "#### ";
+            color: #ffffff;
+            font-size: .555px;
+            line-height: 0.1px;
+            display: inline-block;
+            width: 1em;
+        }
+
+        h5::before {
+            content: "##### ";
+            color: #ffffff;
+            font-size: .555px;
+            line-height: 0.1px;
+            display: inline-block;
+            width: 1em;
+        }
+
+        h6::before {
+            content: "###### ";
+            color: #ffffff;
+            font-size: .555px;
+            line-height: 0.1px;
+            display: inline-block;
+            width: 1em;
+        }
         /* Ensure custom bullet lists don't show default bullets */
         .custom-bullet-list, .custom-number-list {
             list-style: none;
@@ -195,7 +266,7 @@
         <!-- Resume header section -->
         
         <header class="w-full bg-primary text-white print:px-[1cm] px-8 py-2" itemscope itemtype="https://schema.org/Person">
-            <section class="flex flex-col sm:flex-row items-start sm:items-center w-full"><div class="flex-shrink-0 text-left"><h1 class="text-2xl font-bold" itemprop="name">John Doe</h1></div><div class="flex-shrink-0 mt-2 sm:mt-0 sm:ml-auto"><address class="contact-info text-left sm:text-right not-italic">
+            <section class="flex flex-col print:flex-row print:items-center sm:flex-row items-start sm:items-center w-full"><div class="flex-shrink-0 text-left"><h1 class="text-2xl font-bold" itemprop="name">John Doe</h1></div><div class="flex-shrink-0 mt-2 print:mt-0 sm:mt-0 print:ml-auto sm:ml-auto"><address class="contact-info text-left sm:text-right not-italic">
 <div class="contact-item" data-contact-type="Email"><strong class="font-bold">Email:</strong><span class="contact-separator"> </span><a href="mailto:john.doe@example.com" class="hover:underline" rel="noopener">john.doe@example.com</a></div>
 <div class="contact-item" data-contact-type="Phone"><strong class="font-bold">Phone:</strong><span class="contact-separator"> </span><a href="tel:+12345678901" class="hover:underline" rel="noopener">+1 (234) 567-8901</a></div>
 <div class="contact-item" data-contact-type="LinkedIn"><strong class="font-bold">LinkedIn:</strong><span class="contact-separator"> </span><a href="https://www.linkedin.com/in/johndoe/" class="hover:underline" rel="noopener">linkedin.com/in/johndoe</a></div>
@@ -205,12 +276,10 @@
         
         <!-- Main content area with semantic sections -->
         <main class="px-8 py-2 print:pt-4 print:px-[1cm]" role="main" aria-label="Resume Content">
-            <aside class="p-0 m-0 text-white selection:text-white" style="font-size: 1px; line-height: 0.1px;">
+            <aside class="ats-visible">
             <p class="p-0 m-0">Skills: Python, JavaScript, TypeScript, React, Node.js, Django, Flask, PostgreSQL, MongoDB, AWS, Docker, Kubernetes</p>
 <p class="p-0 m-0">Tools: Git, GitHub, VS Code, IntelliJ IDEA, Postman, Jenkins, Terraform, Ansible</p>
-        </aside>
-<aside class="p-0 m-0 text-white selection:text-white" style="font-size: 1px; line-height: 0.1px;">
-            <p class="p-0 m-0">Certifications: AWS Certified Solutions Architect, Kubernetes Certified Application Developer</p>
+<p class="p-0 m-0">Certifications: AWS Certified Solutions Architect, Kubernetes Certified Application Developer</p>
 <p class="p-0 m-0">Languages: English (Native), Spanish (Fluent), French (Conversational)</p>
         </aside>
 <section role="region" id="Professional-Experience">
@@ -233,9 +302,54 @@
 <section role="region" id="Education">
 <h2 class="text-xl font-bold text-primary mb-2 pb-1 pt-1 border-b border-gray-300" id="Education" role="heading" aria-level="2">Education</h2>
 <article>
-<h3 class="text-base font-bold text-primary mt-1 mb-1" itemprop="worksFor" itemscope itemtype="https://schema.org/Organization"><span itemprop="name">Bachelor of Science in Computer Science</span></h3>
-<h4 class="text-sm font-semibold text-gray-800 mt-1 mb-1" itemprop="jobTitle">University of Technology</h4>
-<h5 class="text-xs font-semibold text-gray-800 mt-1 mb-1"><time>2014 - 2018</time></h5>
+<table class="w-full border-collapse my-2"><thead><tr>
+<th class="bg-primary bg-opacity-10 text-primary font-semibold text-left p-1 print:bg-primary print:bg-opacity-10">Degree</th>
+<th class="bg-primary bg-opacity-10 text-primary font-semibold text-left p-1 print:bg-primary print:bg-opacity-10">Institution</th>
+<th class="bg-primary bg-opacity-10 text-primary font-semibold text-left p-1 print:bg-primary print:bg-opacity-10">Year</th>
+</tr></thead><tbody>
+<tr>
+<td class="border border-gray-200 p-1 text-left" data-field="degree" data-label="Degree">
+                    <span class="ats-visible">&nbsp;Degree:&nbsp;</span>
+                   Bachelor of Science in Computer Science
+                </td>
+<td class="border border-gray-200 p-1 text-left" data-field="institution" data-label="Institution">
+                    <span class="ats-visible">&nbsp;Institution:&nbsp;</span>
+                   University of Technology
+                </td>
+<td class="border border-gray-200 p-1 text-left" data-field="year" data-label="Year">
+                    <span class="ats-visible">&nbsp;Year:&nbsp;</span>
+                   2014 - 2018
+                </td>
+</tr>
+<tr>
+<td class="border border-gray-200 p-1 text-left" data-field="degree" data-label="Degree">
+                    <span class="ats-visible">&nbsp;Degree:&nbsp;</span>
+                   Master of Science in Software Engineering
+                </td>
+<td class="border border-gray-200 p-1 text-left" data-field="institution" data-label="Institution">
+                    <span class="ats-visible">&nbsp;Institution:&nbsp;</span>
+                   Tech Institute
+                </td>
+<td class="border border-gray-200 p-1 text-left" data-field="year" data-label="Year">
+                    <span class="ats-visible">&nbsp;Year:&nbsp;</span>
+                   2018 - 2020
+                </td>
+</tr>
+<tr>
+<td class="border border-gray-200 p-1 text-left" data-field="degree" data-label="Degree">
+                    <span class="ats-visible">&nbsp;Degree:&nbsp;</span>
+                   Certificate in Data Science
+                </td>
+<td class="border border-gray-200 p-1 text-left" data-field="institution" data-label="Institution">
+                    <span class="ats-visible">&nbsp;Institution:&nbsp;</span>
+                   Online University
+                </td>
+<td class="border border-gray-200 p-1 text-left" data-field="year" data-label="Year">
+                    <span class="ats-visible">&nbsp;Year:&nbsp;</span>
+                   2021
+                </td>
+</tr>
+</tbody></table>
 </article>
 </section>
 <section role="region" id="Projects">
