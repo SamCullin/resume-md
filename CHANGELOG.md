@@ -1,6 +1,19 @@
 # CHANGELOG
 
 
+## v1.3.0 (2025-05-29)
+
+### Bug Fixes
+
+- Sync lock file
+  ([`a92f9d7`](https://github.com/SamCullin/resume-md/commit/a92f9d7ce90789848091b0786bc6dd97a3311240))
+
+### Features
+
+- Added header # prefix to copied content and added missing () to ats-info parsing
+  ([`879da9e`](https://github.com/SamCullin/resume-md/commit/879da9e737a78acd558cea4ec0b5545a23ba819d))
+
+
 ## v1.2.2 (2025-05-28)
 
 ### Bug Fixes
